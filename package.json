@@ -2,6 +2,7 @@
   "name": "json-schema-yup-transformer",
   "author": "Ritchie Anesco <info@ritchieanesco.com>",
   "version": "1.6.11",
+  "type": "module",
   "description": "Transforms a draft 7 specification JSON Schema to a Yup Schema",
   "license": "MIT",
   "main": "dist/index.js",
