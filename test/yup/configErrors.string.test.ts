@@ -1,7 +1,11 @@
 import * as Yup from "yup";
-import type { JSONSchema, JSONSchemaDefinitionExtended } from "../../src/schema"
+import type {
+  JSONSchema,
+  JSONSchemaDefinitionExtended
+} from "../../src/schema";
 import convertToYup from "../../src";
 import type { Config } from "../../src";
+import { ValidationError } from "yup";
 
 describe("convertToYup() string configuration errors", () => {
   it("should show configuration error for incorrect data type", () => {
@@ -28,7 +32,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ name: null });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Default string message");
   });
@@ -57,7 +63,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ name: null });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("name custom string error message");
   });
@@ -87,7 +95,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({});
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Name (string) is required");
   });
@@ -117,7 +127,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({});
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("name custom required error message");
   });
@@ -148,7 +160,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ name: "abc" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Minimum character length error");
   });
@@ -180,7 +194,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ name: "abc" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("name custom minimum 6 characters");
   });
@@ -210,7 +226,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ name: "abcdefg" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Maximum character length error");
   });
@@ -241,7 +259,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ name: "abcdefg" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("name custom maximium 6 characters");
   });
@@ -271,7 +291,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ postcode: "abcdefg" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Incorrect pattern");
   });
@@ -301,7 +323,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ postcode: "abcdefg" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe(
       "postcode custom pattern /^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$/"
@@ -333,7 +357,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ postcode: "abcdefg" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Incorrect regex");
   });
@@ -363,7 +389,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ postcode: "abcdefg" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe(
       "postcode custom regex /^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$/"
@@ -395,7 +423,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ target: "abcdefg" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Incorrect constant");
   });
@@ -425,7 +455,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ target: "abcdefg" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("target custom const Test");
   });
@@ -455,7 +487,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ target: "abcdefg" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Value does not match any of the enums");
   });
@@ -485,7 +519,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ target: "abcdefg" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("target custom enum TestA,TestB");
   });
@@ -515,7 +551,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ date: "Test" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Value does not match date time format");
   });
@@ -546,7 +584,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ date: "Test" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("date field has invalid date-time format");
   });
@@ -576,7 +616,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ time: "Test" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Value does not match time format");
   });
@@ -607,7 +649,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ time: "Test" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("time field has invalid time format");
   });
@@ -637,7 +681,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ date: "Test" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Value does not match date format");
   });
@@ -668,7 +714,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ date: "Test" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("date field has invalid date format");
   });
@@ -698,7 +746,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ email: "Test" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Value does not match email format");
   });
@@ -729,7 +779,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ email: "Test" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("email field has invalid email format");
   });
@@ -759,7 +811,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ email: "Test" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Value does not match idn email format");
   });
@@ -790,7 +844,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ email: "Test" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("email field has invalid idn-email format");
   });
@@ -820,7 +876,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ website: "Test" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Value does not match hostname format");
   });
@@ -851,7 +909,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ website: "Test" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("website field has invalid hostname format");
   });
@@ -881,7 +941,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ website: "Test" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Value does not match idn hostname format");
   });
@@ -912,7 +974,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ website: "Test" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("website field has invalid idn-hostname format");
   });
@@ -942,7 +1006,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ ipAddress: "Test" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Value does not match ipv4 format");
   });
@@ -973,7 +1039,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ ipAddress: "Test" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("ipAddress field has invalid ipv4 format");
   });
@@ -1003,7 +1071,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ ipAddress: "Test" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Value does not match ipv6 format");
   });
@@ -1034,7 +1104,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ ipAddress: "Test" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("ipAddress field has invalid ipv6 format");
   });
@@ -1064,7 +1136,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ website: "Test" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Value does not match URI format");
   });
@@ -1095,7 +1169,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ website: "Test" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("website field has invalid uri format");
   });
@@ -1125,7 +1201,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ website: "http://" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Value does not match URI reference format");
   });
@@ -1156,7 +1234,9 @@ describe("convertToYup() string configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ website: "http://" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("website field has invalid uri-reference format");
   });

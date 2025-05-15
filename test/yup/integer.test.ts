@@ -1,6 +1,7 @@
 import * as Yup from "yup";
-import type { JSONSchema } from "../../src/schema"
+import type { JSONSchema } from "../../src/schema";
 import convertToYup from "../../src";
+import { ValidationError } from "yup";
 
 describe("convertToYup() integer", () => {
   it("should validate integer type", () => {
@@ -53,7 +54,9 @@ describe("convertToYup() integer", () => {
     try {
       errorMessage = yupschema.validateSync({ phone: "phone" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe(`${fieldTitle} is not of type integer`);
   });

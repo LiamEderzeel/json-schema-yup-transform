@@ -17,8 +17,10 @@ export const buildProperties = (
     [key: string]: JSONSchemaDefinition;
   },
   jsonSchema: JSONSchema
-): {} | { [key: string]: Yup.Lazy | Yup.MixedSchema<unknown> } => {
-  let schema = {};
+):
+  | Record<string, any>
+  | { [key: string]: Yup.Lazy | Yup.MixedSchema<unknown> } => {
+  let schema: Record<string, any> = {};
 
   for (let [key, value] of Object.entries(properties)) {
     if (!isSchemaObject(value)) {
@@ -66,11 +68,11 @@ export const buildProperties = (
       // Check if item has if schema in allOf array
       const conditions = hasAllOfIfSchema(jsonSchema, key)
         ? jsonSchema.allOf?.reduce((all, schema) => {
-            if (typeof schema === "boolean") {
-              return all;
-            }
-            return { ...all, ...createConditionalSchema(schema) };
-          }, [])
+          if (typeof schema === "boolean") {
+            return all;
+          }
+          return { ...all, ...createConditionalSchema(schema) };
+        }, [])
         : [];
       const newSchema = createValidationSchema([key, value], jsonSchema);
       schema = {
@@ -118,11 +120,11 @@ const hasAllOfIfSchema = (jsonSchema: JSONSchema, key: string): boolean => {
 
 const isValidator =
   ([key, value]: [string, JSONSchema], jsonSchema: JSONSchema) =>
-  (val: unknown): boolean => {
-    const conditionalSchema = createValidationSchema([key, value], jsonSchema);
-    const result: boolean = conditionalSchema.isValidSync(val);
-    return result;
-  };
+    (val: unknown): boolean => {
+      const conditionalSchema = createValidationSchema([key, value], jsonSchema);
+      const result: boolean = conditionalSchema.isValidSync(val);
+      return result;
+    };
 
 /** Build `is`, `then`, `otherwise` validation schema */
 
@@ -163,8 +165,8 @@ const createIsThenOtherwiseSchemaItem = (
   required: JSONSchema["required"]
 ):
   | {
-      [key: string]: Yup.Lazy | Yup.MixedSchema<unknown>;
-    }
+    [key: string]: Yup.Lazy | Yup.MixedSchema<unknown>;
+  }
   | false => {
   const item: JSONSchema = {
     properties: { [key]: { ...value } }
@@ -193,7 +195,7 @@ const createIsThenOtherwiseSchema = (
       ? Object.keys(elseSchema.properties)
       : [];
 
-  const schema = {};
+  const schema: Record<string, any> = {};
 
   // Iterate through then schema and check for matching else schema keys and toggle between each rule pending if condition.
 

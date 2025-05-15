@@ -22,7 +22,11 @@ export const joinPath = (
 /** Retrieves the first item in an object */
 
 export const getObjectHead = <T>(obj: T): false | [string, T[keyof T]] => {
-  if (!isPlainObject(obj) || isEmpty(obj)) return false;
+  // orignial
+  // if (!isPlainObject(obj) || isEmpty(obj)) return false;
+  // replacement
+  if (obj == null || typeof obj !== "object" || Object.keys(obj).length <= 0)
+    return false;
   /** Get all keys from obj */
   const arr = Object.keys(obj);
   /** Grab the first key */
@@ -53,8 +57,8 @@ export const transformRefs = (schema: JSONSchema): JSONSchema => {
     const replaced = hasRef
       ? getDefinitionItem(schema, get(value, "$ref"))
       : isPlainObject(value) || isArray(value)
-      ? replaceAllRefs(value)
-      : value;
+        ? replaceAllRefs(value)
+        : value;
     result[key] = replaced;
   };
   const replaceAllRefs = (schema: JSONSchema): JSONSchema =>
@@ -83,12 +87,12 @@ export const applyIfTypes = (schema: JSONSchema): JSONSchema => {
             get(properties, [ifSchemaKey, "type"]);
           value = type
             ? {
-                ...value,
-                properties: {
-                  ...ifProperties,
-                  [ifSchemaKey]: { ...ifSchemaValue, type }
-                }
+              ...value,
+              properties: {
+                ...ifProperties,
+                [ifSchemaKey]: { ...ifSchemaValue, type }
               }
+            }
             : value;
         }
       }
@@ -112,21 +116,28 @@ export const applyPaths = (schema: JSONSchema): JSONSchema => {
     "items"
   ];
   const addPath = (schema: JSONSchema, path: string = ""): JSONSchema =>
-    transform(schema, (result: JSONSchema, value: any, key: string) => {
-      /** Target field node only */
-      const isField = has(value, "type") && !has(value, "properties");
-      if (isField) {
-        value = {
-          ...value,
-          description: `${path}${key}`
-        };
+    transform(
+      schema,
+      (
+        result: JSONSchema | Record<string, unknown>,
+        value: any,
+        key: string
+      ) => {
+        /** Target field node only */
+        const isField = has(value, "type") && !has(value, "properties");
+        if (isField) {
+          value = {
+            ...value,
+            description: `${path}${key}`
+          };
+        }
+        /** Capture path of the field id only */
+        const id = invalidKeys.includes(key) ? "" : `${key}.`;
+        result[key] = isPlainObject(value)
+          ? addPath(value, `${path}${id}`)
+          : value;
       }
-      /** Capture path of the field id only */
-      const id = invalidKeys.includes(key) ? "" : `${key}.`;
-      result[key] = isPlainObject(value)
-        ? addPath(value, `${path}${id}`)
-        : value;
-    });
+    );
   return isPlainObject(schema) ? addPath(schema) : schema;
 };
 

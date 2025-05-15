@@ -1,6 +1,7 @@
 import * as Yup from "yup";
 import type { JSONSchemaExtended } from "../../src/schema";
 import convertToYup from "../../src";
+import { ValidationError } from "yup";
 
 describe("convertToYup() string", () => {
   it("should validate string type", () => {
@@ -105,7 +106,9 @@ describe("convertToYup() string", () => {
     try {
       errorMessage = yupschema.validateSync({});
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Name is required");
   });
@@ -139,7 +142,9 @@ describe("convertToYup() string", () => {
     try {
       errorMessage = yupschema.validateSync({ name: "abcd" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Name requires a minimum of 6 characters");
   });
@@ -173,7 +178,9 @@ describe("convertToYup() string", () => {
     try {
       errorMessage = yupschema.validateSync({ name: "abcdefgh" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Name cannot exceed a maximum of 6 characters");
   });
@@ -212,7 +219,9 @@ describe("convertToYup() string", () => {
     try {
       errorMessage = yupschema.validateSync({ name: "(800)FLOWERS" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Name is an incorrect format");
   });
@@ -246,7 +255,9 @@ describe("convertToYup() string", () => {
     try {
       errorMessage = yupschema.validateSync({ name: "(800)FLOWERS" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Name does not match constant");
   });
@@ -285,7 +296,9 @@ describe("convertToYup() string", () => {
     try {
       errorMessage = yupschema.validateSync({ name: "(800)FLOWERS" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Name does not match any of the enumerables");
   });
@@ -378,7 +391,9 @@ describe("convertToYup() string", () => {
     try {
       errorMessage = yupschema.validateSync({ name: "(800)FLOWERS" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Name is an incorrect format");
   });
@@ -404,11 +419,12 @@ describe("convertToYup() string", () => {
     try {
       errorMessage = yupschema.validateSync({ name: "" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe(`${fieldTitle} is required`);
   });
-
 
   it("should validate multiple types in a nested object", () => {
     const schema: JSONSchemaExtended = {
@@ -432,7 +448,7 @@ describe("convertToYup() string", () => {
     expect(() => {
       yupschema.isValidSync({
         address: {
-        name: ""
+          name: ""
         }
       });
     }).toBeTruthy();
@@ -440,11 +456,9 @@ describe("convertToYup() string", () => {
     expect(() => {
       yupschema.isValidSync({
         address: {
-        name: null
+          name: null
         }
       });
     }).toBeTruthy();
-
   });
-
 });
