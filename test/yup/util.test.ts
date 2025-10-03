@@ -1,4 +1,4 @@
-import type { JSONSchema, JSONSchemaBasicType } from "../../src/schema"
+import type { JSONSchema, JSONSchemaBasicType } from "../../src/schema";
 import {
   getObjectHead,
   removeEmptyObjects,
@@ -707,10 +707,7 @@ describe("getObjectHead()", () => {
 
 describe("validateItemsArray()", () => {
   it("should validate tuple with defined schema", () => {
-    const schm: JSONSchema["items"] = [
-      { type: "number" },
-      { type: "boolean" }
-    ];
+    const schm: JSONSchema["items"] = [{ type: "number" }, { type: "boolean" }];
     const arr: JSONSchemaBasicType[] = [5, true];
     const validator = validateItemsArray(schm);
     const result = arr.every(validator);

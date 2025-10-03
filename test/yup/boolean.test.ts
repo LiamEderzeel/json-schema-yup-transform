@@ -17,7 +17,7 @@ describe("convertToYup() boolean", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       enable: true
@@ -52,7 +52,7 @@ describe("convertToYup() boolean", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       terms: true
@@ -78,7 +78,7 @@ describe("convertToYup() boolean", () => {
       },
       required: ["enable"]
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let valid;
 
     valid = yupschema.isValidSync({
@@ -114,7 +114,7 @@ describe("convertToYup() boolean", () => {
       required: ["consent"]
     };
 
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let isValid = yupschema
       .test(
         "is-default",
@@ -139,7 +139,7 @@ describe("convertToYup() boolean", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       isActive: true
@@ -177,7 +177,7 @@ describe("convertToYup() boolean", () => {
       }
     };
 
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ isActive: "test" });

@@ -3,6 +3,7 @@ import capitalize from "lodash/capitalize";
 import type { JSONSchemaExtended } from "../../../schema";
 import { DataTypes, SchemaKeywords } from "../../../schema";
 import Yup from "../../addMethods";
+// import * as Yup from "yup";
 import { getErrorMessage } from "../../config/";
 import { createRequiredSchema } from "../required";
 import { createConstantSchema } from "../constant";

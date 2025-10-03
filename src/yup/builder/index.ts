@@ -19,7 +19,7 @@ export const buildProperties = (
   jsonSchema: JSONSchema
 ):
   | Record<string, any>
-  | { [key: string]: Yup.Lazy | Yup.MixedSchema<unknown> } => {
+  | { [key: string]: Yup.Lazy<unknown> | Yup.MixedSchema<unknown> } => {
   let schema: Record<string, any> = {};
 
   for (let [key, value] of Object.entries(properties)) {
@@ -68,11 +68,11 @@ export const buildProperties = (
       // Check if item has if schema in allOf array
       const conditions = hasAllOfIfSchema(jsonSchema, key)
         ? jsonSchema.allOf?.reduce((all, schema) => {
-          if (typeof schema === "boolean") {
-            return all;
-          }
-          return { ...all, ...createConditionalSchema(schema) };
-        }, [])
+            if (typeof schema === "boolean") {
+              return all;
+            }
+            return { ...all, ...createConditionalSchema(schema) };
+          }, [])
         : [];
       const newSchema = createValidationSchema([key, value], jsonSchema);
       schema = {
@@ -120,11 +120,11 @@ const hasAllOfIfSchema = (jsonSchema: JSONSchema, key: string): boolean => {
 
 const isValidator =
   ([key, value]: [string, JSONSchema], jsonSchema: JSONSchema) =>
-    (val: unknown): boolean => {
-      const conditionalSchema = createValidationSchema([key, value], jsonSchema);
-      const result: boolean = conditionalSchema.isValidSync(val);
-      return result;
-    };
+  (val: unknown): boolean => {
+    const conditionalSchema = createValidationSchema([key, value], jsonSchema);
+    const result: boolean = conditionalSchema.isValidSync(val);
+    return result;
+  };
 
 /** Build `is`, `then`, `otherwise` validation schema */
 
@@ -165,8 +165,8 @@ const createIsThenOtherwiseSchemaItem = (
   required: JSONSchema["required"]
 ):
   | {
-    [key: string]: Yup.Lazy | Yup.MixedSchema<unknown>;
-  }
+      [key: string]: Yup.Lazy | Yup.MixedSchema<unknown>;
+    }
   | false => {
   const item: JSONSchema = {
     properties: { [key]: { ...value } }
@@ -256,7 +256,32 @@ const createIsThenOtherwiseSchema = (
 
   // Generate Yup.when schemas from the schema object.
   const conditionalSchemas = Object.keys(schema).reduce((accum, next) => {
-    accum[next] = Yup.mixed().when(ifSchemaKey, { ...schema[next] });
+    // Get the conditional options for the current field (e.g., the 'if', 'then' parts)
+    const conditionalOptions = schema[next];
+
+    // Map over the options and wrap the 'then'/'otherwise' schemas in functions
+    const correctedOptions = Object.keys(conditionalOptions).reduce(
+      (opts, key) => {
+        const value = conditionalOptions[key];
+
+        // Check if the key is a schema branch that needs a functional wrapper
+        // if (key === "then" || key === "otherwise" || key === "else") {
+        if (key === "then" || key === "otherwise") {
+          // 💡 FIX: Wrap the schema value in a function: (currentSchema) => value
+          // The 'value' here is the original schema object (e.g., yup.string().required())
+          opts[key] = (currentSchema) => value;
+        } else {
+          // For 'is' and other simple keys, keep them as is
+          opts[key] = value;
+        }
+        return opts;
+      },
+      {}
+    );
+
+    // Now apply the correctly formatted options
+    accum[next] = Yup.mixed().when(ifSchemaKey, correctedOptions);
+
     return accum;
   }, {});
 

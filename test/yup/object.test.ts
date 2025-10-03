@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import type { JSONSchema } from "../../src/schema"
+import type { JSONSchema } from "../../src/schema";
 import convertToYup from "../../src";
 import { describe, expect, it } from "vitest";
 
@@ -17,7 +17,7 @@ describe("convertToYup() object", () => {
       }
     };
 
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let isValid = yupschema.isValidSync({
       items: {}
     });
@@ -47,7 +47,7 @@ describe("convertToYup() object", () => {
       required: ["items"]
     };
 
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let isValid = yupschema.isValidSync({});
     expect(isValid).toBeFalsy();
   });
@@ -69,7 +69,7 @@ describe("convertToYup() object", () => {
       }
     };
 
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       address: {
@@ -108,7 +108,7 @@ describe("convertToYup() object", () => {
       }
     };
 
-    yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     isValid = yupschema.isValidSync({
       address: {
@@ -146,7 +146,7 @@ describe("convertToYup() object", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       address: {
@@ -184,7 +184,7 @@ describe("convertToYup() object", () => {
         }
       }
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       mailingAddress: {
@@ -218,7 +218,7 @@ describe("convertToYup() object", () => {
         }
       }
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       mailingAddress: {
@@ -254,7 +254,7 @@ describe("convertToYup() object", () => {
         }
       }
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       mailingAddress: {
@@ -288,7 +288,7 @@ describe("convertToYup() object", () => {
         test: true
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       name: "test"
@@ -313,7 +313,7 @@ describe("convertToYup() object", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       address: {}
@@ -344,7 +344,7 @@ describe("convertToYup() object", () => {
       }
     };
     expect(() => {
-      convertToYup(schema) as Yup.ObjectSchema;
+      convertToYup(schema) as Yup.ObjectSchema<object>;
     }).toThrowError("Type key is missing");
   });
 

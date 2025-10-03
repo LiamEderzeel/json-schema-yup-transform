@@ -17,7 +17,7 @@ describe("convertToYup() integer", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       phone: 123
@@ -50,7 +50,7 @@ describe("convertToYup() integer", () => {
       }
     };
 
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ phone: "phone" });

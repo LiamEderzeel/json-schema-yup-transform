@@ -21,8 +21,8 @@ importers:
         specifier: ^3.2.4
         version: 3.2.4(@types/node@22.15.18)(jsdom@15.2.1(bufferutil@4.0.9)(canvas@2.11.2)(utf-8-validate@5.0.10))
       yup:
-        specifier: ^0.29.1
-        version: 0.29.3
+        specifier: ^1.7.1
+        version: 1.7.1
     devDependencies:
       '@types/is-relative-url':
         specifier: ^3.0.0
@@ -56,10 +56,6 @@ importers:
         version: 5.0.10
 
 packages:
-
-  '@babel/runtime@7.28.4':
-    resolution: {integrity: sha512-Q/N6JNWvIvPnLDvjlE1OUBLPQHH6l3CltCEsHIujp45zQUSSh8K+gHnaEX45yAT1nyngnINhvWtzN+Nb9D8RAQ==}
-    engines: {node: '>=6.9.0'}
 
   '@esbuild/aix-ppc64@0.25.10':
     resolution: {integrity: sha512-0NFWnA+7l41irNuaSVlLfgNT12caWJVLzp5eAVhZ0z1qpxbockccEt3s+149rE64VUI3Ml2zt8Nv5JVc4QXTsw==}
@@ -637,10 +633,6 @@ packages:
       picomatch:
         optional: true
 
-  fn-name@3.0.0:
-    resolution: {integrity: sha512-eNMNr5exLoavuAMhIUVsOKF79SWd/zG104ef6sxBTSw+cZc6BXdQXDvYcGvp0VbxVVSp1XDUNoz7mg1xMtSznA==}
-    engines: {node: '>=8'}
-
   forever-agent@0.6.1:
     resolution: {integrity: sha512-j0KLYPhm6zeac4lz3oJ3o65qvgQCcPubiyotZrXqEaG4hNagNYO8qdlUrX5vwqv9ohqeT/Z3j6+yW067yWWdUw==}
 
@@ -778,9 +770,6 @@ packages:
   levn@0.3.0:
     resolution: {integrity: sha512-0OO4y2iOHix2W6ujICbKIaEQXvFQHue65vUG3pb5EUomzPI90z9hsA1VsO/dbIIpC53J8gxM9Q4Oho0jrCM/yA==}
     engines: {node: '>= 0.8.0'}
-
-  lodash-es@4.17.21:
-    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
 
   lodash.sortby@4.7.0:
     resolution: {integrity: sha512-HDWXG8isMntAyRF5vZ7xKuEvOhT4AhlRt/3czTSjvGUxjYCBVRQY48ViDHyfYz9VIoBkW4TMGQNapx+l3RUwdA==}
@@ -1049,12 +1038,12 @@ packages:
   symbol-tree@3.2.4:
     resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
 
-  synchronous-promise@2.0.17:
-    resolution: {integrity: sha512-AsS729u2RHUfEra9xJrE39peJcc2stq2+poBXX8bcM08Y6g9j/i/PUzwNQqkaJde7Ntg1TO7bSREbR5sdosQ+g==}
-
   tar@6.2.1:
     resolution: {integrity: sha512-DZ4yORTwrbTj/7MZYq2w+/ZFdI6OZ/f9SFHR+71gIVUZhOQPHzVCLpvRnPgyaMpfWxxk/4ONva3GQSyNIKRv6A==}
     engines: {node: '>=10'}
+
+  tiny-case@1.0.3:
+    resolution: {integrity: sha512-Eet/eeMhkO6TX8mnUteS9zgPbUMQa4I6Kkp5ORiBD5476/m+PIRiumP5tmh5ioJpH7k51Kehawy2UDfsnxxY8Q==}
 
   tinybench@2.9.0:
     resolution: {integrity: sha512-0+DUvqWMValLmha6lr4kD8iAMK1HzV0/aKnCtWb9v9641TnP/MFb7Pc2bxoxQjTXAErryXVgUOfv2YqNllqGeg==}
@@ -1104,6 +1093,10 @@ packages:
   type-check@0.3.2:
     resolution: {integrity: sha512-ZCmOJdvOWDBYJlzAoFkC+Q0+bUyEOS1ltgp1MGU03fqHG+dbi9tBFU2Rd9QKiDZFAYrhPh2JUf7rZRIuHRKtOg==}
     engines: {node: '>= 0.8.0'}
+
+  type-fest@2.19.0:
+    resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==}
+    engines: {node: '>=12.20'}
 
   typescript@5.8.3:
     resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}
@@ -1266,13 +1259,10 @@ packages:
   yallist@4.0.0:
     resolution: {integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==}
 
-  yup@0.29.3:
-    resolution: {integrity: sha512-RNUGiZ/sQ37CkhzKFoedkeMfJM0vNQyaz+wRZJzxdKE7VfDeVKH8bb4rr7XhRLbHJz5hSjoDNwMEIaKhuMZ8gQ==}
-    engines: {node: '>=10'}
+  yup@1.7.1:
+    resolution: {integrity: sha512-GKHFX2nXul2/4Dtfxhozv701jLQHdf6J34YDh2cEkpqoo8le5Mg6/LrdseVLrFarmFygZTlfIhHx/QKfb/QWXw==}
 
 snapshots:
-
-  '@babel/runtime@7.28.4': {}
 
   '@esbuild/aix-ppc64@0.25.10':
     optional: true
@@ -1751,8 +1741,6 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.3
 
-  fn-name@3.0.0: {}
-
   forever-agent@0.6.1: {}
 
   form-data@2.3.3:
@@ -1919,8 +1907,6 @@ snapshots:
       prelude-ls: 1.1.2
       type-check: 0.3.2
     optional: true
-
-  lodash-es@4.17.21: {}
 
   lodash.sortby@4.7.0:
     optional: true
@@ -2202,8 +2188,6 @@ snapshots:
   symbol-tree@3.2.4:
     optional: true
 
-  synchronous-promise@2.0.17: {}
-
   tar@6.2.1:
     dependencies:
       chownr: 2.0.0
@@ -2212,6 +2196,8 @@ snapshots:
       minizlib: 2.1.2
       mkdirp: 1.0.4
       yallist: 4.0.0
+
+  tiny-case@1.0.3: {}
 
   tinybench@2.9.0: {}
 
@@ -2259,6 +2245,8 @@ snapshots:
     dependencies:
       prelude-ls: 1.1.2
     optional: true
+
+  type-fest@2.19.0: {}
 
   typescript@5.8.3: {}
 
@@ -2423,12 +2411,9 @@ snapshots:
 
   yallist@4.0.0: {}
 
-  yup@0.29.3:
+  yup@1.7.1:
     dependencies:
-      '@babel/runtime': 7.28.4
-      fn-name: 3.0.0
-      lodash: 4.17.21
-      lodash-es: 4.17.21
       property-expr: 2.0.6
-      synchronous-promise: 2.0.17
+      tiny-case: 1.0.3
       toposort: 2.0.2
+      type-fest: 2.19.0

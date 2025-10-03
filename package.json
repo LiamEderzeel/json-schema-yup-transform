@@ -23,7 +23,7 @@
     "lodash": "4.17.21",
     "stringify-object": "^3.3.0",
     "vitest": "^3.2.4",
-    "yup": "^0.29.1"
+    "yup": "^1.7.1"
   },
   "devDependencies": {
     "@types/is-relative-url": "^3.0.0",

@@ -28,7 +28,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ name: null });
@@ -59,7 +59,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ name: null });
@@ -91,7 +91,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({});
@@ -123,7 +123,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({});
@@ -156,7 +156,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ name: "abc" });
@@ -190,7 +190,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ name: "abc" });
@@ -222,7 +222,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ name: "abcdefg" });
@@ -255,7 +255,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ name: "abcdefg" });
@@ -287,7 +287,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ postcode: "abcdefg" });
@@ -319,7 +319,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ postcode: "abcdefg" });
@@ -353,7 +353,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ postcode: "abcdefg" });
@@ -385,7 +385,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ postcode: "abcdefg" });
@@ -419,7 +419,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ target: "abcdefg" });
@@ -451,7 +451,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ target: "abcdefg" });
@@ -483,7 +483,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ target: "abcdefg" });
@@ -515,7 +515,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ target: "abcdefg" });
@@ -547,7 +547,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ date: "Test" });
@@ -580,7 +580,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ date: "Test" });
@@ -612,7 +612,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ time: "Test" });
@@ -645,7 +645,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ time: "Test" });
@@ -677,7 +677,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ date: "Test" });
@@ -710,7 +710,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ date: "Test" });
@@ -742,7 +742,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ email: "Test" });
@@ -775,7 +775,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ email: "Test" });
@@ -807,7 +807,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ email: "Test" });
@@ -840,7 +840,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ email: "Test" });
@@ -872,7 +872,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ website: "Test" });
@@ -905,7 +905,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ website: "Test" });
@@ -937,7 +937,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ website: "Test" });
@@ -970,7 +970,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ website: "Test" });
@@ -1002,7 +1002,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ ipAddress: "Test" });
@@ -1035,7 +1035,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ ipAddress: "Test" });
@@ -1067,7 +1067,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ ipAddress: "Test" });
@@ -1100,7 +1100,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ ipAddress: "Test" });
@@ -1132,7 +1132,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ website: "Test" });
@@ -1165,7 +1165,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ website: "Test" });
@@ -1197,7 +1197,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ website: "http://" });
@@ -1230,7 +1230,7 @@ describe("convertToYup() string configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ website: "http://" });

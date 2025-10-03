@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import type { JSONSchema } from "../../src/schema"
+import type { JSONSchema } from "../../src/schema";
 import convertToYup from "../../src";
 import { describe, expect, it } from "vitest";
 
@@ -25,7 +25,7 @@ describe("convertToYup() array conditions", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       list: ["a", "b", "c"]
@@ -54,7 +54,7 @@ describe("convertToYup() array conditions", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       list: ["a", "b", "c"],
@@ -101,7 +101,7 @@ describe("convertToYup() array conditions", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       list: ["a", "b", "c"],
@@ -172,7 +172,7 @@ describe("convertToYup() array conditions", () => {
       }
     };
 
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let isValid = yupschema.isValidSync({
       isTaxResidentOnly: "true",
       countries: [
@@ -260,7 +260,7 @@ describe("convertToYup() array conditions", () => {
       }
     };
 
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let isValid = yupschema.isValidSync({
       isTaxResidentOnly: "true",
       countries: [
@@ -433,7 +433,7 @@ describe("convertToYup() array conditions", () => {
       }
     };
 
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let isValid = yupschema.isValidSync({
       isTaxResidentOnly: "false",
       countries: [
@@ -512,7 +512,7 @@ describe("convertToYup() array conditions", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       list: ["a"]

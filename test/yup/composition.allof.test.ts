@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import type { JSONSchema } from "../../src/schema"
+import type { JSONSchema } from "../../src/schema";
 import convertToYup from "../../src";
 import { describe, expect, it } from "vitest";
 
@@ -19,7 +19,7 @@ describe("convertToYup() allOf", () => {
         }
       }
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let valid;
 
     valid = yupschema.isValidSync({

@@ -17,7 +17,7 @@ describe("convertToYup() number", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let isValid = yupschema.isValidSync({
       name: 123
     });
@@ -40,7 +40,7 @@ describe("convertToYup() number", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       name: 123
@@ -71,7 +71,7 @@ describe("convertToYup() number", () => {
       },
       required: ["years"]
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let valid;
 
     valid = yupschema.isValidSync({
@@ -104,7 +104,7 @@ describe("convertToYup() number", () => {
         }
       }
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let valid;
 
     valid = yupschema.isValidSync({
@@ -139,7 +139,7 @@ describe("convertToYup() number", () => {
         }
       }
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let valid;
 
     valid = yupschema.isValidSync({
@@ -174,7 +174,7 @@ describe("convertToYup() number", () => {
         }
       }
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let valid;
 
     // testing rule is inclusive
@@ -209,7 +209,7 @@ describe("convertToYup() number", () => {
         }
       }
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let valid;
 
     valid = yupschema.isValidSync({
@@ -245,7 +245,7 @@ describe("convertToYup() number", () => {
         }
       }
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let valid;
 
     valid = yupschema.isValidSync({
@@ -271,7 +271,7 @@ describe("convertToYup() number", () => {
         }
       }
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let valid;
 
     valid = yupschema.isValidSync({
@@ -346,7 +346,7 @@ describe("convertToYup() number", () => {
         }
       }
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let valid;
 
     // testing rule is inclusive
@@ -381,7 +381,7 @@ describe("convertToYup() number", () => {
         }
       }
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let valid;
 
     valid = yupschema.isValidSync({
@@ -414,7 +414,7 @@ describe("convertToYup() number", () => {
         }
       }
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let valid = yupschema.isValidSync({
       years: 0
     });
@@ -434,7 +434,7 @@ describe("convertToYup() number", () => {
         }
       }
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let valid;
 
     valid = yupschema.isValidSync({
@@ -475,7 +475,7 @@ describe("convertToYup() number", () => {
       required: ["age"]
     };
 
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let isValid = yupschema
       .test(
         "is-default",
@@ -501,7 +501,7 @@ describe("convertToYup() number", () => {
       }
     };
 
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ age: "Forty" });

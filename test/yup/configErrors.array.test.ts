@@ -25,7 +25,7 @@ describe("convertToYup() array configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ groceries: "ABC" });
@@ -56,7 +56,7 @@ describe("convertToYup() array configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ groceries: "ABC" });
@@ -87,7 +87,7 @@ describe("convertToYup() array configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ groceries: "ABC" });
@@ -118,7 +118,7 @@ describe("convertToYup() array configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ groceries: "ABC" });
@@ -150,7 +150,7 @@ describe("convertToYup() array configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({});
@@ -183,7 +183,7 @@ describe("convertToYup() array configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({});
@@ -217,7 +217,7 @@ describe("convertToYup() array configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({});
@@ -249,7 +249,7 @@ describe("convertToYup() array configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ groceries: [] });
@@ -282,7 +282,7 @@ describe("convertToYup() array configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ groceries: [] });
@@ -314,7 +314,7 @@ describe("convertToYup() array configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ groceries: [1, 2, 3, 4, 5] });
@@ -347,7 +347,7 @@ describe("convertToYup() array configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ groceries: [1, 2, 3, 4, 5] });
@@ -381,7 +381,7 @@ describe("convertToYup() array configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ groceries: [null] });
@@ -416,7 +416,7 @@ describe("convertToYup() array configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ groceries: [null] });
@@ -450,7 +450,7 @@ describe("convertToYup() array configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ groceries: [null] });
@@ -482,7 +482,7 @@ describe("convertToYup() array configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ groceries: [null] });
@@ -530,7 +530,7 @@ describe("convertToYup() array configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({
@@ -564,7 +564,7 @@ describe("convertToYup() array configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ list: ["c"] });
@@ -597,7 +597,7 @@ describe("convertToYup() array configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ list: ["c"] });
@@ -632,7 +632,7 @@ describe("convertToYup() array configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ list: ["c"] });
@@ -668,7 +668,7 @@ describe("convertToYup() array configuration errors", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ list: ["c"] });
@@ -702,7 +702,7 @@ describe("convertToYup() array configuration errors", () => {
       }
     };
 
-    let yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
 
     try {
@@ -738,7 +738,7 @@ describe("convertToYup() array configuration errors", () => {
       }
     };
 
-    let yupschema = convertToYup(schema, config) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
 
     try {

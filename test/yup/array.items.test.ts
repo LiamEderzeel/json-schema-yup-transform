@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 import isEqual from "lodash/isEqual";
-import type { JSONSchema } from "../../src/schema"
+import type { JSONSchema } from "../../src/schema";
 import convertToYup from "../../src";
 import { describe, expect, it } from "vitest";
 
@@ -39,7 +39,7 @@ describe("convertToYup() array items", () => {
         }
       }
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let valid = yupschema.isValidSync({
       countries: [
         {
@@ -66,7 +66,7 @@ describe("convertToYup() array items", () => {
         }
       }
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let valid;
 
     valid = yupschema.isValidSync({
@@ -106,7 +106,7 @@ describe("convertToYup() array items", () => {
         }
       }
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let valid;
 
     valid = yupschema.isValidSync({
@@ -140,7 +140,7 @@ describe("convertToYup() array items", () => {
         }
       }
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let valid;
 
     valid = yupschema.isValidSync({
@@ -179,7 +179,7 @@ describe("convertToYup() array items", () => {
         }
       }
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let valid;
 
     valid = yupschema.isValidSync({
@@ -223,7 +223,7 @@ describe("convertToYup() array items", () => {
         }
       }
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let valid;
 
     valid = yupschema.isValidSync({
@@ -257,7 +257,7 @@ describe("convertToYup() array items", () => {
         }
       }
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let valid;
 
     valid = yupschema.isValidSync({
@@ -296,7 +296,7 @@ describe("convertToYup() array items", () => {
         }
       }
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let valid;
 
     valid = yupschema.isValidSync({
@@ -335,7 +335,7 @@ describe("convertToYup() array items", () => {
       required: ["list"]
     };
 
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let isValid = yupschema
       .test("is-default", "${path} is default value", (value) =>
         isEqual(value.list, defaultValue)

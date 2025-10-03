@@ -17,7 +17,7 @@ describe("convertToYup() string", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       name: "test"
@@ -42,7 +42,7 @@ describe("convertToYup() string", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       name: "test"
@@ -72,7 +72,7 @@ describe("convertToYup() string", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     expect(() => {
       yupschema.isValidSync({
         name: []
@@ -94,7 +94,7 @@ describe("convertToYup() string", () => {
       required: ["name"]
     };
 
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let valid = yupschema.isValidSync({
       name: "test"
     });
@@ -127,7 +127,7 @@ describe("convertToYup() string", () => {
         }
       }
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let valid = yupschema.isValidSync({
       name: "abcdef"
     });
@@ -163,7 +163,7 @@ describe("convertToYup() string", () => {
         }
       }
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let valid = yupschema.isValidSync({
       name: "abcdef"
     });
@@ -199,7 +199,7 @@ describe("convertToYup() string", () => {
         }
       }
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let valid = yupschema.isValidSync({
       name: "555-1212"
     });
@@ -240,7 +240,7 @@ describe("convertToYup() string", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       name: "test"
@@ -276,7 +276,7 @@ describe("convertToYup() string", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       name: "test"
@@ -320,7 +320,7 @@ describe("convertToYup() string", () => {
       required: ["name"]
     };
 
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let isValid = yupschema
       .test(
         "is-default",
@@ -345,7 +345,7 @@ describe("convertToYup() string", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       name: ""
@@ -371,7 +371,7 @@ describe("convertToYup() string", () => {
         }
       }
     };
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let valid = yupschema.isValidSync({
       name: "555-1212"
     });
@@ -415,7 +415,7 @@ describe("convertToYup() string", () => {
       required: ["name"]
     };
 
-    let yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
       errorMessage = yupschema.validateSync({ name: "" });
@@ -444,7 +444,7 @@ describe("convertToYup() string", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     expect(() => {
       yupschema.isValidSync({
