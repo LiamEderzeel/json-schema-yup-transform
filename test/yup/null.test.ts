@@ -1,6 +1,7 @@
 import * as Yup from "yup";
 import type { JSONSchema } from "../../src/schema"
 import convertToYup from "../../src";
+import { describe, expect, it } from "vitest";
 
 describe("convertToYup() null", () => {
   it("should allow null values", () => {

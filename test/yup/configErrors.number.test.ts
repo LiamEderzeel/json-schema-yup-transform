@@ -3,6 +3,7 @@ import type { JSONSchema } from "../../src/schema";
 import type { Config } from "../../src";
 import convertToYup from "../../src";
 import { ValidationError } from "yup";
+import { describe, expect, it } from "vitest";
 
 describe("convertToYup() number configuration errors", () => {
   it("should show configuration error for incorrect data type", () => {

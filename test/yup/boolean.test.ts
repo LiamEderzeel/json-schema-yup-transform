@@ -2,6 +2,7 @@ import * as Yup from "yup";
 import type { JSONSchema } from "../../src/schema";
 import convertToYup from "../../src";
 import { ValidationError } from "yup";
+import { describe, expect, it } from "vitest";
 
 describe("convertToYup() boolean", () => {
   it("should validate boolean type", () => {

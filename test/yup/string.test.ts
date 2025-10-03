@@ -2,6 +2,7 @@ import * as Yup from "yup";
 import type { JSONSchemaExtended } from "../../src/schema";
 import convertToYup from "../../src";
 import { ValidationError } from "yup";
+import { describe, expect, it } from "vitest";
 
 describe("convertToYup() string", () => {
   it("should validate string type", () => {
