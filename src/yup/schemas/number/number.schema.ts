@@ -16,7 +16,7 @@ import { createEnumerableSchema } from "../enumerables";
 const createNumberSchema = (
   [key, value]: SchemaItem,
   jsonSchema: JSONSchema
-): Yup.NumberSchema<number | undefined, Yup.AnyObject, undefined, ""> => {
+) => {
   const { description, title } = value;
 
   const label = title || capitalize(key);
@@ -39,7 +39,7 @@ export const createBaseNumberSchema = (
   Schema: Yup.NumberSchema,
   [key, value]: SchemaItem,
   jsonSchema: JSONSchema
-): Yup.NumberSchema<number | undefined, Yup.AnyObject, undefined, ""> => {
+): Yup.NumberSchema => {
   const {
     description,
     default: defaults,
@@ -58,8 +58,8 @@ export const createBaseNumberSchema = (
   const isExclusiveMaxNumber = isNumber(exclusiveMaximum);
   const isExclusiveMinNumber = isNumber(exclusiveMinimum);
 
-  if (isNumber(defaults)) {
-    Schema = Schema.concat(Schema.default(defaults));
+  if (isNumber(defaults) || typeof defaults === 'undefined') {
+    Schema = Schema.concat(Schema.default(defaults)) as Yup.NumberSchema<number | undefined, Yup.AnyObject, undefined, "">;
   }
 
   if (isExclusiveMinNumber && isMinNumber) {
@@ -147,7 +147,7 @@ export const createBaseNumberSchema = (
   /** Set required if ID is in required schema */
   Schema = createRequiredSchema(Schema, jsonSchema, [key, value]);
 
-  return Schema;
+  return Schema as Yup.NumberSchema;
 };
 
 export default createNumberSchema;

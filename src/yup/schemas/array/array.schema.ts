@@ -18,7 +18,7 @@ import { getErrorMessage } from "../../config/";
 const createArraySchema = (
   [key, value]: SchemaItem,
   jsonSchema: JSONSchema
-): Yup.ArraySchema<unknown[] | undefined, Yup.AnyObject, undefined, ""> => {
+): Yup.ArraySchema<any[] | undefined, Yup.AnyObject> => {
   const {
     description,
     default: defaults,
@@ -38,8 +38,8 @@ const createArraySchema = (
 
   let Schema = Yup.array().typeError(defaultMessage);
 
-  if (isArray(defaults)) {
-    Schema = Schema.concat(Schema.default(defaults));
+  if (isArray(defaults) || typeof defaults === 'undefined') {
+    Schema = Schema.concat(Schema.default(defaults))
   }
 
   /** Set required if ID is in required schema */

@@ -36,7 +36,7 @@ export const buildProperties = (
     if (type === "object" && properties) {
       const objSchema = build(value);
       if (objSchema) {
-        const ObjectSchema = createValidationSchema([key, value], jsonSchema);
+        const ObjectSchema = createValidationSchema([key, value], jsonSchema) as Yup.ObjectSchema<Yup.AnyObject>;
 
         if ("concat" in ObjectSchema) {
           schema = { ...schema, [key]: ObjectSchema.concat(objSchema) };
@@ -51,7 +51,7 @@ export const buildProperties = (
       const ArraySchema = createValidationSchema(
         [key, omit(value, "items")],
         jsonSchema
-      );
+      ) as Yup.ArraySchema<any[] | undefined, Yup.AnyObject>;
       if ("concat" in ArraySchema) {
         schema = {
           ...schema,
@@ -62,7 +62,7 @@ export const buildProperties = (
       const ArraySchema = createValidationSchema(
         [key, omit(value, "items")],
         jsonSchema
-      );
+      ) as Yup.ArraySchema<any[] | undefined, Yup.AnyObject>;
 
       if ("concat" in ArraySchema) {
         schema = {
@@ -298,7 +298,7 @@ const createIsThenOtherwiseSchema = (
     );
 
     // Now apply the correctly formatted options
-    accum[next] = Yup.mixed().when(ifSchemaKey, correctedOptions);
+    accum[next] = Yup.mixed().when(ifSchemaKey, correctedOptions as { is: any; then: any; otherwise?: any });
 
     return accum;
   }, {});

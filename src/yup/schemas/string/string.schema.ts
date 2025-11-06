@@ -46,8 +46,8 @@ const createStringSchema = (
 
   let Schema = Yup.string().typeError(defaultMessage);
 
-  if (defaults) {
-    Schema = Schema.concat(Schema.default(defaults));
+  if (typeof defaults === 'string' || typeof defaults === 'undefined') {
+    Schema = Schema.concat(Schema.default(defaults)) as Yup.StringSchema<string | undefined, Yup.AnyObject, undefined, "">
   }
 
   /** Set required if ID is in required schema */

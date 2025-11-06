@@ -14,7 +14,7 @@ import { buildProperties } from "../../builder";
 const createObjectSchema = (
   [key, value]: SchemaItem,
   jsonSchema: JSONSchema
-): Yup.ObjectSchema<object> => {
+): Yup.ObjectSchema<Yup.AnyObject> => {
   const { description, title } = value;
 
   const label = title || capitalize(key);
@@ -30,7 +30,7 @@ const createObjectSchema = (
   const isComposition =
     schm.indexOf("anyOf") > -1 || schm.indexOf("oneOf") > -1;
 
-  let Schema: Yup.ObjectSchema<object>;
+  let Schema: Yup.ObjectSchema<Yup.AnyObject>;
   if (isComposition) {
     let shape =
       value.properties && buildProperties(value.properties, jsonSchema);

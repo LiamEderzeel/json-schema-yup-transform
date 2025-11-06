@@ -7,7 +7,7 @@ import { getErrorMessage } from "../../config/";
 import { createBaseNumberSchema } from "../number";
 
 /**
- * Initializes a yup integer schema derived from a json humber schema
+ * Initializes a yup integer schema derived from a json number schema
  */
 
 const createIntegerSchema = (

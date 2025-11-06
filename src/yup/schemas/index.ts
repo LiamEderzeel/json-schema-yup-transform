@@ -28,6 +28,7 @@ import {
   createNotSchema,
   createOneOfSchema
 } from "./composition";
+import { AnyObject } from "yup";
 
 /**
  * Validates the input data type against the schema type and returns
@@ -49,10 +50,11 @@ const getTypeOfValue = (
  * Determine which validation method to use by data type
  */
 
+type YupValidationSchema = Yup.NumberSchema | Yup.MixedSchema<unknown> | Yup.BooleanSchema | Yup.ArraySchema<any[] | undefined, AnyObject> | Yup.ObjectSchema<AnyObject> | Yup.StringSchema
 const getValidationSchema = (
   [key, value]: SchemaItem,
   jsonSchema: JSONSchema
-): Yup.MixedSchema<unknown> => {
+): YupValidationSchema => {
   if (hasAnyOf(value)) {
     return createAnyOfSchema([key, value], jsonSchema);
   }
@@ -71,17 +73,37 @@ const getValidationSchema = (
 
   const { type } = value;
 
-  const schemaMap = {
-    [DataTypes.STRING]: createStringSchema,
-    [DataTypes.NUMBER]: createNumberSchema,
-    [DataTypes.INTEGER]: createIntegerSchema,
-    [DataTypes.ARRAY]: createArraySchema,
-    [DataTypes.BOOLEAN]: createBooleanSchema,
-    [DataTypes.NULL]: createNullSchema,
-    [DataTypes.OBJECT]: createObjectSchema
-  };
 
-  return schemaMap[type as JSONSchemaTypeName]([key, value], jsonSchema);
+  switch(type) {
+    case DataTypes.STRING:
+      return createStringSchema([key, value], jsonSchema);
+    case DataTypes.NUMBER:
+      return createNumberSchema([key, value], jsonSchema)
+    case DataTypes.INTEGER:
+      return createIntegerSchema([key, value], jsonSchema);
+    case DataTypes.ARRAY:
+      return createArraySchema([key, value], jsonSchema);
+    case DataTypes.BOOLEAN:
+      return createBooleanSchema([key, value], jsonSchema);
+    case DataTypes.NULL:
+      return createNullSchema();
+    case DataTypes.OBJECT:
+      return createObjectSchema([key, value], jsonSchema);
+    default:
+      throw new Error(`Unsupported data type: ${type}`);
+  }
+
+  // const schemaMap = {
+  //   [DataTypes.STRING]: createStringSchema,
+  //   [DataTypes.NUMBER]: createNumberSchema,
+  //   [DataTypes.INTEGER]: createIntegerSchema,
+  //   [DataTypes.ARRAY]: createArraySchema,
+  //   [DataTypes.BOOLEAN]: createBooleanSchema,
+  //   [DataTypes.NULL]: createNullSchema,
+  //   [DataTypes.OBJECT]: createObjectSchema
+  // };
+
+  // return schemaMap[type as JSONSchemaTypeName]([key, value], jsonSchema);
 };
 
 /**
@@ -115,7 +137,7 @@ const getLazyValidationSchema = (
 const createValidationSchema = (
   [key, value]: SchemaItem,
   jsonSchema: JSONSchema
-): Yup.Lazy<unknown, Yup.AnyObject, ""> | Yup.MixedSchema<unknown> => {
+): Yup.Lazy<unknown, Yup.AnyObject, ""> | YupValidationSchema => {
   const type = getPropertyType(value) || getCompositionType(value);
   if (isArray(type)) {
     return getLazyValidationSchema([key, value], jsonSchema);
