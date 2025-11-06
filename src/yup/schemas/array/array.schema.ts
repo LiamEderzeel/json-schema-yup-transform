@@ -3,7 +3,7 @@ import isString from "lodash/isString";
 import isArray from "lodash/isArray";
 import capitalize from "lodash/capitalize";
 import { DataTypes, isItemsArray, SchemaKeywords } from "../../../schema";
-import type { JSONSchema } from "../../../schema"
+import type { JSONSchema } from "../../../schema";
 import Yup from "../../addMethods";
 import { createRequiredSchema } from "../required";
 import { createConstantSchema } from "../constant";
@@ -18,7 +18,7 @@ import { getErrorMessage } from "../../config/";
 const createArraySchema = (
   [key, value]: SchemaItem,
   jsonSchema: JSONSchema
-): Yup.ArraySchema<unknown> => {
+): Yup.ArraySchema<unknown[] | undefined, Yup.AnyObject, undefined, ""> => {
   const {
     description,
     default: defaults,
@@ -33,7 +33,7 @@ const createArraySchema = (
   const label = title || capitalize(key);
 
   const defaultMessage =
-    getErrorMessage(description, DataTypes.ARRAY, [ key, { title }]) ||
+    getErrorMessage(description, DataTypes.ARRAY, [key, { title }]) ||
     `${label} is not of type array`;
 
   let Schema = Yup.array().typeError(defaultMessage);

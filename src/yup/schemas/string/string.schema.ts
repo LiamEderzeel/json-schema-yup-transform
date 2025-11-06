@@ -26,7 +26,7 @@ import {
 const createStringSchema = (
   [key, value]: [string, JSONSchemaExtended],
   jsonSchema: JSONSchemaExtended
-): Yup.StringSchema<string> => {
+): Yup.StringSchema<string | undefined, Yup.AnyObject, undefined, ""> => {
   const {
     description,
     default: defaults,

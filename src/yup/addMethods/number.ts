@@ -9,8 +9,8 @@ export function multipleOf(
   value: number,
   message: string
 ): Yup.NumberSchema {
-  return this.test("test-multipleOf", message, function(input) {
+  return this.test("test-multipleOf", message, function (input) {
     const { path, createError } = this;
-    return input % value === 0 || createError({ path, message });
+    return input! % value === 0 || createError({ path, message });
   });
 }

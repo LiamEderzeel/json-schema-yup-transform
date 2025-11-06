@@ -36,9 +36,6 @@ importers:
       '@types/stringify-object':
         specifier: ^3.2.0
         version: 3.3.1
-      '@types/yup':
-        specifier: ^0.26.33
-        version: 0.26.37
       bufferutil:
         specifier: ^4.0.1
         version: 4.0.9
@@ -354,9 +351,6 @@ packages:
 
   '@types/stringify-object@3.3.1':
     resolution: {integrity: sha512-bpCBW0O+QrMLNFBY/+rkZtGzcYRmc2aTD8qYHOMNUmednqETfEZtFcGEA11l9xqbIeiT1PgXG0eq3zqayVzZSQ==}
-
-  '@types/yup@0.26.37':
-    resolution: {integrity: sha512-cDqR/ez4+iAVQYOwadXjKX4Dq1frtnDGV2GNVKj3aUVKVCKRvsr8esFk66j+LgeeJGmrMcBkkfCf3zk13MjV7A==}
 
   '@vitest/expect@3.2.4':
     resolution: {integrity: sha512-Io0yyORnB6sikFlt8QW5K7slY4OjqNX9jmJQ02QDda8lyM6B5oNgVWoSoKPac8/kgnCUzuHQKrSLtu/uOqqrig==}
@@ -1447,8 +1441,6 @@ snapshots:
     optional: true
 
   '@types/stringify-object@3.3.1': {}
-
-  '@types/yup@0.26.37': {}
 
   '@vitest/expect@3.2.4':
     dependencies:
