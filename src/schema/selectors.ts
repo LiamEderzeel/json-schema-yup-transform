@@ -74,6 +74,10 @@ export const getCompositionType = (
 export const getRequired = (schema: JSONSchema): JSONSchema["required"] =>
   schema.required;
 
+
+export const getNullable = (schema: JSONSchema): JSONSchema["nullable"] =>
+  schema.nullable;
+
 /**
  * Retrieve reference id from `$ref` attribute
  */

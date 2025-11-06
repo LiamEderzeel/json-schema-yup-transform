@@ -18,6 +18,7 @@ import {
   IPV4_REGEX,
   IPV6_REGEX
 } from "./string.constants";
+import { createNullableSchema } from "../nullable";
 
 /**
  * Initializes a yup string schema derived from a json string schema
@@ -52,6 +53,8 @@ const createStringSchema = (
 
   /** Set required if ID is in required schema */
   Schema = createRequiredSchema(Schema, jsonSchema, [key, value]);
+
+  Schema = createNullableSchema(Schema, jsonSchema, [key, value]);
 
   /** Determine if schema matches constant */
   Schema = createConstantSchema(Schema, [key, value]);
