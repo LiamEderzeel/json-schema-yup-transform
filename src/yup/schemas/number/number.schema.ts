@@ -1,7 +1,7 @@
 import isNumber from "lodash/isNumber";
 import capitalize from "lodash/capitalize";
 import { DataTypes, SchemaKeywords } from "../../../schema";
-import type { JSONSchema } from "../../../schema"
+import type { JSONSchema } from "../../../schema";
 import type { SchemaItem } from "../../types";
 import { getErrorMessage } from "../../config";
 import Yup from "../../addMethods";
@@ -16,7 +16,7 @@ import { createEnumerableSchema } from "../enumerables";
 const createNumberSchema = (
   [key, value]: SchemaItem,
   jsonSchema: JSONSchema
-): Yup.NumberSchema<number> => {
+): Yup.NumberSchema<number | undefined, Yup.AnyObject, undefined, ""> => {
   const { description, title } = value;
 
   const label = title || capitalize(key);
@@ -39,7 +39,7 @@ export const createBaseNumberSchema = (
   Schema: Yup.NumberSchema,
   [key, value]: SchemaItem,
   jsonSchema: JSONSchema
-): Yup.NumberSchema<number> => {
+): Yup.NumberSchema<number | undefined, Yup.AnyObject, undefined, ""> => {
   const {
     description,
     default: defaults,
@@ -96,7 +96,7 @@ export const createBaseNumberSchema = (
       );
 
     Schema = Schema.concat(
-      Schema.moreThan((exclusiveMinimum as number), message)
+      Schema.moreThan(exclusiveMinimum as number, message)
     );
   }
 
@@ -122,7 +122,7 @@ export const createBaseNumberSchema = (
       );
 
     Schema = Schema.concat(
-      Schema.lessThan((exclusiveMaximum as number), message)
+      Schema.lessThan(exclusiveMaximum as number, message)
     );
   }
 

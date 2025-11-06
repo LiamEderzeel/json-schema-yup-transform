@@ -19,7 +19,11 @@ export const buildProperties = (
   jsonSchema: JSONSchema
 ):
   | Record<string, any>
-  | { [key: string]: Yup.Lazy<unknown> | Yup.MixedSchema<unknown> } => {
+  | {
+    [key: string]:
+    | Yup.Lazy<unknown, Yup.AnyObject, "">
+    | Yup.MixedSchema<unknown>;
+  } => {
   let schema: Record<string, any> = {};
 
   for (let [key, value] of Object.entries(properties)) {
@@ -33,7 +37,10 @@ export const buildProperties = (
       const objSchema = build(value);
       if (objSchema) {
         const ObjectSchema = createValidationSchema([key, value], jsonSchema);
-        schema = { ...schema, [key]: ObjectSchema.concat(objSchema) };
+
+        if ("concat" in ObjectSchema) {
+          schema = { ...schema, [key]: ObjectSchema.concat(objSchema) };
+        }
       }
     } else if (
       type === "array" &&
@@ -45,21 +52,26 @@ export const buildProperties = (
         [key, omit(value, "items")],
         jsonSchema
       );
-      schema = {
-        ...schema,
-        [key]: ArraySchema.concat(Yup.array(build(items)))
-      };
+      if ("concat" in ArraySchema) {
+        schema = {
+          ...schema,
+          [key]: ArraySchema.concat(Yup.array(build(items)))
+        };
+      }
     } else if (type === "array" && isSchemaObject(items)) {
       const ArraySchema = createValidationSchema(
         [key, omit(value, "items")],
         jsonSchema
       );
-      schema = {
-        ...schema,
-        [key]: ArraySchema.concat(
-          Yup.array(createValidationSchema([key, items], jsonSchema))
-        )
-      };
+
+      if ("concat" in ArraySchema) {
+        schema = {
+          ...schema,
+          [key]: ArraySchema.concat(
+            Yup.array(createValidationSchema([key, items], jsonSchema))
+          )
+        };
+      }
     } else {
       // Check if item has a then or else schema
       const condition = hasIfSchema(jsonSchema, key)
@@ -68,11 +80,11 @@ export const buildProperties = (
       // Check if item has if schema in allOf array
       const conditions = hasAllOfIfSchema(jsonSchema, key)
         ? jsonSchema.allOf?.reduce((all, schema) => {
-            if (typeof schema === "boolean") {
-              return all;
-            }
-            return { ...all, ...createConditionalSchema(schema) };
-          }, [])
+          if (typeof schema === "boolean") {
+            return all;
+          }
+          return { ...all, ...createConditionalSchema(schema) };
+        }, [])
         : [];
       const newSchema = createValidationSchema([key, value], jsonSchema);
       schema = {
@@ -120,11 +132,11 @@ const hasAllOfIfSchema = (jsonSchema: JSONSchema, key: string): boolean => {
 
 const isValidator =
   ([key, value]: [string, JSONSchema], jsonSchema: JSONSchema) =>
-  (val: unknown): boolean => {
-    const conditionalSchema = createValidationSchema([key, value], jsonSchema);
-    const result: boolean = conditionalSchema.isValidSync(val);
-    return result;
-  };
+    (val: unknown): boolean => {
+      const conditionalSchema = createValidationSchema([key, value], jsonSchema);
+      const result: boolean = conditionalSchema.isValidSync(val);
+      return result;
+    };
 
 /** Build `is`, `then`, `otherwise` validation schema */
 
@@ -165,8 +177,10 @@ const createIsThenOtherwiseSchemaItem = (
   required: JSONSchema["required"]
 ):
   | {
-      [key: string]: Yup.Lazy | Yup.MixedSchema<unknown>;
-    }
+    [key: string]:
+    | Yup.Lazy<unknown, Yup.AnyObject, "">
+    | Yup.MixedSchema<unknown>;
+  }
   | false => {
   const item: JSONSchema = {
     properties: { [key]: { ...value } }
@@ -208,7 +222,11 @@ const createIsThenOtherwiseSchema = (
       thenSchema.required
     );
     let matchingElseSchemaItem:
-      | { [key: string]: Yup.MixedSchema<unknown> | Yup.Lazy }
+      | {
+        [key: string]:
+        | Yup.MixedSchema<unknown>
+        | Yup.Lazy<unknown, Yup.AnyObject, "">;
+      }
       | false = false;
 
     if (

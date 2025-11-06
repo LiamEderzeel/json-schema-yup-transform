@@ -92,7 +92,7 @@ const getValidationSchema = (
 const getLazyValidationSchema = (
   [key, value]: SchemaItem,
   jsonSchema: JSONSchema
-): Yup.Lazy =>
+): Yup.Lazy<unknown, Yup.AnyObject, ""> =>
   Yup.lazy((inputValue) => {
     const type = get(value, "type") as JSONSchemaTypeName[];
     // include a check for undefined as Formik 2.1.4
@@ -115,7 +115,7 @@ const getLazyValidationSchema = (
 const createValidationSchema = (
   [key, value]: SchemaItem,
   jsonSchema: JSONSchema
-): Yup.Lazy | Yup.MixedSchema<unknown> => {
+): Yup.Lazy<unknown, Yup.AnyObject, ""> | Yup.MixedSchema<unknown> => {
   const type = getPropertyType(value) || getCompositionType(value);
   if (isArray(type)) {
     return getLazyValidationSchema([key, value], jsonSchema);

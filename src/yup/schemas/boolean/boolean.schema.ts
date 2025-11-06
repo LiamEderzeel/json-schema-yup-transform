@@ -27,7 +27,12 @@ const createBooleanSchema = (
   let Schema = Yup.boolean().typeError(defaultMessage);
 
   if (isBoolean(defaults)) {
-    Schema = Schema.concat(Schema.default(defaults));
+    Schema = Schema.concat(Schema.default(defaults)) as Yup.BooleanSchema<
+      boolean | undefined,
+      Yup.AnyObject,
+      undefined,
+      ""
+    >;
   }
 
   /** Determine if schema matches constant */

@@ -10,7 +10,7 @@ import { isEqual } from "lodash";
  */
 
 export const createConstantSchema = <
-  T extends Yup.Schema<unknown, unknown, unknown, "", unknown>
+  T extends Yup.Schema<unknown, Yup.AnyObject, unknown, "">
 >(
   Schema: T,
   [key, value]: SchemaItem
