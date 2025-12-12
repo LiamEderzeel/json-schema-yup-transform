@@ -17,10 +17,9 @@ describe("convertToYup() string configuration errors", () => {
       title: "Test",
       properties: {
         name: {
-          type: "string",
+          type: "string"
         }
-      },
-      nullable: ['name'],
+      }
     };
     const config: Config = {
       errors: {
@@ -32,7 +31,7 @@ describe("convertToYup() string configuration errors", () => {
     const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
-      errorMessage = yupschema.validateSync({ name: null });
+      errorMessage = yupschema.validateSync({ name: 1 }, { strict: true });
     } catch (e) {
       if (ValidationError.isError(e)) {
         errorMessage = e.errors[0];
@@ -61,9 +60,10 @@ describe("convertToYup() string configuration errors", () => {
       }
     };
     const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
+
     let errorMessage;
     try {
-      errorMessage = yupschema.validateSync({ name: null });
+      errorMessage = yupschema.validateSync({ name: { test: "test" } });
     } catch (e) {
       if (ValidationError.isError(e)) {
         errorMessage = e.errors[0];
