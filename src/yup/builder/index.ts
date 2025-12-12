@@ -36,7 +36,10 @@ export const buildProperties = (
     if (type === "object" && properties) {
       const objSchema = build(value);
       if (objSchema) {
-        const ObjectSchema = createValidationSchema([key, value], jsonSchema) as Yup.ObjectSchema<Yup.AnyObject>;
+        const ObjectSchema = createValidationSchema(
+          [key, value],
+          jsonSchema
+        ) as Yup.ObjectSchema<Yup.AnyObject>;
 
         if ("concat" in ObjectSchema) {
           schema = { ...schema, [key]: ObjectSchema.concat(objSchema) };
@@ -272,6 +275,51 @@ const createIsThenOtherwiseSchema = (
     });
   }
 
+  const nestedElse =
+    isSchemaObject(elseSchema) && get(elseSchema, "if")
+      ? createConditionalSchema(elseSchema)
+      : {};
+
+  const nestedElseKeys = Object.keys(nestedElse);
+
+  if (isSchemaObject(thenSchema) && get(thenSchema, "if")) {
+    const nestedThen = createConditionalSchema(thenSchema);
+
+    for (const [key, validator] of Object.entries(nestedThen)) {
+      let matchingElseSchemaItem:
+        | (Yup.MixedSchema<unknown> | Yup.Lazy<unknown, Yup.AnyObject, "">)
+        | false = false;
+
+      if (nestedElse && key in nestedElse) {
+        matchingElseSchemaItem = nestedElse[key] ?? false;
+        if (nestedElseKeys.length)
+          nestedElseKeys.splice(nestedElseKeys.indexOf(key), 1);
+      }
+
+      schema[key] = {
+        is: callback,
+        then: {
+          [key]: validator
+        },
+        ...(matchingElseSchemaItem ? { otherwise: matchingElseSchemaItem } : {})
+      };
+    }
+  }
+
+  if (nestedElse && nestedElseKeys.length) {
+    nestedElseKeys.forEach((k) => {
+      if (k in nestedElse) {
+        const elseSchemaItem = nestedElse[k];
+        if (elseSchemaItem) {
+          schema[k] = {
+            is: (schema: unknown) => callback(schema) === false,
+            then: elseSchemaItem
+          };
+        }
+      }
+    });
+  }
+
   // Generate Yup.when schemas from the schema object.
   const conditionalSchemas = Object.keys(schema).reduce((accum, next) => {
     // Get the conditional options for the current field (e.g., the 'if', 'then' parts)
@@ -298,21 +346,15 @@ const createIsThenOtherwiseSchema = (
     );
 
     // Now apply the correctly formatted options
-    accum[next] = Yup.mixed().when(ifSchemaKey, correctedOptions as { is: any; then: any; otherwise?: any });
+    accum[next] = Yup.mixed().when(
+      ifSchemaKey,
+      correctedOptions as { is: any; then: any; otherwise?: any }
+    );
 
     return accum;
   }, {});
 
-  // Create conditional schema for if schema's within else schema.
-  let nestedConditionalSchemas = {};
-  if (isSchemaObject(elseSchema) && get(elseSchema, "if")) {
-    nestedConditionalSchemas = {
-      ...nestedConditionalSchemas,
-      ...createConditionalSchema(elseSchema)
-    };
-  }
-
-  return { ...conditionalSchemas, ...nestedConditionalSchemas };
+  return { ...conditionalSchemas };
 };
 
 /**

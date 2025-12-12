@@ -336,7 +336,7 @@ describe("convertToYup() array conditions", () => {
     expect(isValid).toBeFalsy();
   });
 
-  it("should validate nested conditions", () => {
+  it("should validate nested conditions 2", () => {
     const schema: JSONSchema = {
       $schema: "http://json-schema.org/draft-07/schema#",
       $id: "crs",
@@ -393,6 +393,146 @@ describe("convertToYup() array conditions", () => {
             },
             then: {
               properties: {
+                idReason2: {
+                  type: "string",
+                  minLength: 1,
+                  maxLength: 50
+                }
+              },
+              required: ["idReason2"],
+              if: {
+                properties: {
+                  idReason2: {
+                    minLength: 1
+                  }
+                }
+              },
+              then: {
+                properties: {
+                  idNoExplanation: {
+                    type: "string"
+                  }
+                },
+                required: ["idNoExplanation"]
+              }
+            }
+          }
+        }
+      },
+      properties: {
+        isTaxResidentOnly: {
+          type: "string"
+        }
+      },
+      // required: ["isTaxResidentOnly"],
+      if: {
+        properties: {
+          isTaxResidentOnly: {
+            type: "string",
+            const: "false"
+          }
+        }
+      },
+      then: {
+        properties: {
+          countries: {
+            type: "array",
+            items: {
+              $ref: "#/definitions/country"
+            },
+            minItems: 1,
+            maxItems: 5
+          }
+        },
+        required: ["countries"]
+      }
+    };
+
+    let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
+
+    //TODO fix this test
+    let isValid = false;
+    let errorMessage;
+    try {
+      const schema = {
+        isTaxResidentOnly: "false",
+        countries: [
+          {
+            country: "Singapore",
+            hasID: "false",
+            idReason: "UNOBTAINABLE"
+          }
+        ]
+      };
+      errorMessage = yupschema.validateSync(schema);
+      isValid = errorMessage ?? true;
+      // isValid = yupschema.isValidSync(schema);
+    } catch (err) {
+      isValid = false;
+      console.log(err);
+    }
+
+    expect(isValid).toBeFalsy();
+  });
+
+  it("should validate nested conditions", () => {
+    const schema: JSONSchema = {
+      $schema: "http://json-schema.org/draft-07/schema#",
+      $id: "crs",
+      description: "CRS",
+      type: "object",
+      definitions: {
+        country: {
+          type: "object",
+          properties: {
+            country: {
+              type: "string",
+              minLength: 1,
+              maxLength: 30
+            },
+            hasID: {
+              type: "string",
+              minLength: 1,
+              maxLength: 8
+            }
+          },
+          required: ["country", "hasID"],
+          if: {
+            properties: {
+              hasID: {
+                const: "true"
+              }
+            }
+          },
+          then: {
+            properties: {
+              id: {
+                type: "string",
+                minLength: 1,
+                maxLength: 8
+              }
+            },
+            required: ["id"]
+          },
+          else: {
+            properties: {
+              idReason: {
+                description: "niet goed",
+                type: "string",
+                minLength: 1,
+                maxLength: 50
+              }
+            },
+            required: ["idReason"],
+            if: {
+              properties: {
+                idReason: {
+                  const: "UNOBTAINABLE"
+                }
+              }
+            },
+            then: {
+              properties: {
                 idNoExplanation: {
                   type: "string",
                   minLength: 1,
@@ -434,13 +574,18 @@ describe("convertToYup() array conditions", () => {
     };
 
     let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
-    let isValid = yupschema.isValidSync({
+
+    //TODO fix this test
+    let isValid;
+
+    isValid = yupschema.isValidSync({
       isTaxResidentOnly: "false",
       countries: [
         {
           country: "Singapore",
           hasID: "true",
           id: "TEST"
+          // idReason: ":"
         }
       ]
     });
