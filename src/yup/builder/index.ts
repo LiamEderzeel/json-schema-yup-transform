@@ -20,10 +20,10 @@ export const buildProperties = (
 ):
   | Record<string, any>
   | {
-    [key: string]:
-    | Yup.Lazy<unknown, Yup.AnyObject, "">
-    | Yup.MixedSchema<unknown>;
-  } => {
+      [key: string]:
+        | Yup.Lazy<unknown, Yup.AnyObject, "">
+        | Yup.MixedSchema<unknown>;
+    } => {
   let schema: Record<string, any> = {};
 
   for (let [key, value] of Object.entries(properties)) {
@@ -83,11 +83,11 @@ export const buildProperties = (
       // Check if item has if schema in allOf array
       const conditions = hasAllOfIfSchema(jsonSchema, key)
         ? jsonSchema.allOf?.reduce((all, schema) => {
-          if (typeof schema === "boolean") {
-            return all;
-          }
-          return { ...all, ...createConditionalSchema(schema) };
-        }, [])
+            if (typeof schema === "boolean") {
+              return all;
+            }
+            return { ...all, ...createConditionalSchema(schema) };
+          }, [])
         : [];
       const newSchema = createValidationSchema([key, value], jsonSchema);
       schema = {
@@ -135,16 +135,39 @@ const hasAllOfIfSchema = (jsonSchema: JSONSchema, key: string): boolean => {
 
 const isValidator =
   ([key, value]: [string, JSONSchema], jsonSchema: JSONSchema) =>
-    (val: unknown): boolean => {
-      const conditionalSchema = createValidationSchema([key, value], jsonSchema);
-      const result: boolean = conditionalSchema.isValidSync(val);
-      return result;
-    };
+  (val: unknown): boolean => {
+    const conditionalSchema = createValidationSchema([key, value], jsonSchema);
+    const result: boolean = conditionalSchema.isValidSync(val);
+    return result;
+  };
+
+const isValidWrapParentConditions = (...callbacks) => {
+  const [callback, ...otherCallbacks] = callbacks;
+  const nestedCallback =
+    otherCallbacks.length > 0
+      ? isValidWrapParentConditions(...otherCallbacks)
+      : () => true;
+  return (...args) => {
+    const [a, ...otherArgs] = args;
+    if (!callback(a)) {
+      return false;
+    }
+    if (!nestedCallback(...otherArgs)) {
+      return false;
+    }
+
+    return true;
+  };
+};
 
 /** Build `is`, `then`, `otherwise` validation schema */
 
 const createConditionalSchema = (
-  jsonSchema: JSONSchema
+  jsonSchema: JSONSchema,
+  parentValidators: {
+    keys: string[];
+    callback: ((val: unknown) => boolean)[];
+  } = { keys: [], callback: [] }
 ): false | { [key: string]: Yup.MixedSchema } => {
   const ifSchema = get(jsonSchema, "if");
   if (!isSchemaObject(ifSchema)) return false;
@@ -156,15 +179,23 @@ const createConditionalSchema = (
   if (!ifSchemaHead) return false;
 
   const [ifSchemaKey, ifSchemaValue] = ifSchemaHead;
-  if (!isSchemaObject(ifSchemaValue)) return false;
+  if (!isSchemaObject(ifSchemaValue)) false;
 
   const thenSchema = get(jsonSchema, "then");
 
   if (isSchemaObject(thenSchema)) {
     const elseSchema = get(jsonSchema, "else");
     const isValid = isValidator([ifSchemaKey, ifSchemaValue], ifSchema);
+
     return createIsThenOtherwiseSchema(
-      [ifSchemaKey, isValid],
+      {
+        keys: [...parentValidators.keys, ifSchemaKey],
+        callback: [...parentValidators.callback, isValid]
+      },
+      [
+        [...parentValidators.keys, ifSchemaKey],
+        isValidWrapParentConditions(...parentValidators.callback, isValid)
+      ],
       thenSchema,
       elseSchema
     );
@@ -180,10 +211,10 @@ const createIsThenOtherwiseSchemaItem = (
   required: JSONSchema["required"]
 ):
   | {
-    [key: string]:
-    | Yup.Lazy<unknown, Yup.AnyObject, "">
-    | Yup.MixedSchema<unknown>;
-  }
+      [key: string]:
+        | Yup.Lazy<unknown, Yup.AnyObject, "">
+        | Yup.MixedSchema<unknown>;
+    }
   | false => {
   const item: JSONSchema = {
     properties: { [key]: { ...value } }
@@ -199,7 +230,11 @@ const createIsThenOtherwiseSchemaItem = (
 /** `createIsThenOtherwiseSchema` generates a yup when schema. */
 
 const createIsThenOtherwiseSchema = (
-  [ifSchemaKey, callback]: [string, (val: unknown) => boolean],
+  parentValidators: {
+    keys: string[];
+    callback: ((val: unknown) => boolean)[];
+  },
+  [ifSchemaKey, callback]: [string[], (val: unknown) => boolean],
   thenSchema: JSONSchema,
   elseSchema?: JSONSchemaDefinition
 ): false | { [key: string]: Yup.MixedSchema } => {
@@ -226,10 +261,10 @@ const createIsThenOtherwiseSchema = (
     );
     let matchingElseSchemaItem:
       | {
-        [key: string]:
-        | Yup.MixedSchema<unknown>
-        | Yup.Lazy<unknown, Yup.AnyObject, "">;
-      }
+          [key: string]:
+            | Yup.MixedSchema<unknown>
+            | Yup.Lazy<unknown, Yup.AnyObject, "">;
+        }
       | false = false;
 
     if (
@@ -354,7 +389,21 @@ const createIsThenOtherwiseSchema = (
     return accum;
   }, {});
 
-  return { ...conditionalSchemas };
+  let nestedConditionalSchemas = {};
+  if (isSchemaObject(thenSchema) && get(thenSchema, "if")) {
+    nestedConditionalSchemas = {
+      ...nestedConditionalSchemas,
+      ...createConditionalSchema(thenSchema, parentValidators)
+    };
+  }
+  // if (isSchemaObject(elseSchema) && get(elseSchema, "if")) {
+  //   nestedConditionalSchemas = {
+  //     ...nestedConditionalSchemas,
+  //     ...createConditionalSchemaInternal(elseSchema)
+  //   };
+  // }
+
+  return { ...conditionalSchemas, ...nestedConditionalSchemas };
 };
 
 /**

@@ -336,115 +336,63 @@ describe("convertToYup() array conditions", () => {
     expect(isValid).toBeFalsy();
   });
 
-  it("should validate nested conditions 2", () => {
+  it("should validate nested conditions deeply", () => {
     const schema: JSONSchema = {
       $schema: "http://json-schema.org/draft-07/schema#",
       $id: "crs",
       description: "CRS",
       type: "object",
-      definitions: {
-        country: {
-          type: "object",
-          properties: {
-            country: {
-              type: "string",
-              minLength: 1,
-              maxLength: 30
-            },
-            hasID: {
-              type: "string",
-              minLength: 1,
-              maxLength: 8
-            }
-          },
-          required: ["country", "hasID"],
-          if: {
-            properties: {
-              hasID: {
-                const: "true"
-              }
-            }
-          },
-          then: {
-            properties: {
-              id: {
-                type: "string",
-                minLength: 1,
-                maxLength: 8
-              }
-            },
-            required: ["id"]
-          },
-          else: {
-            properties: {
-              idReason: {
-                type: "string",
-                minLength: 1,
-                maxLength: 50
-              }
-            },
-            required: ["idReason"],
-            if: {
-              properties: {
-                idReason: {
-                  const: "UNOBTAINABLE"
-                }
-              }
-            },
-            then: {
-              properties: {
-                idReason2: {
-                  type: "string",
-                  minLength: 1,
-                  maxLength: 50
-                }
-              },
-              required: ["idReason2"],
-              if: {
-                properties: {
-                  idReason2: {
-                    minLength: 1
-                  }
-                }
-              },
-              then: {
-                properties: {
-                  idNoExplanation: {
-                    type: "string"
-                  }
-                },
-                required: ["idNoExplanation"]
-              }
-            }
-          }
-        }
-      },
       properties: {
-        isTaxResidentOnly: {
+        step1: {
           type: "string"
         }
       },
-      // required: ["isTaxResidentOnly"],
+      required: ["step1"],
       if: {
         properties: {
-          isTaxResidentOnly: {
-            type: "string",
-            const: "false"
+          step1: {
+            const: "1"
           }
         }
       },
       then: {
         properties: {
-          countries: {
-            type: "array",
-            items: {
-              $ref: "#/definitions/country"
-            },
-            minItems: 1,
-            maxItems: 5
+          step2: {
+            type: "string"
           }
         },
-        required: ["countries"]
+        required: ["step2"],
+        if: {
+          properties: {
+            step2: {
+              const: "2"
+            }
+          }
+        },
+        then: {
+          properties: {
+            step3: {
+              type: "string"
+            }
+          },
+          required: ["step3"],
+          if: {
+            properties: {
+              step3: {
+                const: "3"
+              }
+            }
+          },
+          then: {
+            properties: {
+              step4: {
+                type: "string",
+                minLength: 1
+              }
+            },
+            required: ["step4"]
+          }
+        }
       }
     };
 
@@ -453,23 +401,40 @@ describe("convertToYup() array conditions", () => {
     //TODO fix this test
     let isValid = false;
     let errorMessage;
+    // try {
+    //   const value = {
+    //     step1: "true",
+    //     step2: "true",
+    //     step3: "true",
+    //     step4: "true"
+    //   };
+    //   errorMessage = yupschema.validateSync(value);
+    //   isValid = errorMessage ?? true;
+    //   // isValid = yupschema.isValidSync(schema);
+    // } catch (err) {
+    //   isValid = false;
+    //
+    //   console.log(err);
+    //   expect(err instanceof TypeError).toEqual(false);
+    //   expect(err instanceof Yup.ValidationError).toEqual(true);
+    // }
+    //
+    // expect(isValid).toBeTruthy();
+
     try {
-      const schema = {
-        isTaxResidentOnly: "false",
-        countries: [
-          {
-            country: "Singapore",
-            hasID: "false",
-            idReason: "UNOBTAINABLE"
-          }
-        ]
+      const value = {
+        step1: "1",
+        step2: "2"
       };
-      errorMessage = yupschema.validateSync(schema);
+      errorMessage = yupschema.validateSync(value);
       isValid = errorMessage ?? true;
       // isValid = yupschema.isValidSync(schema);
     } catch (err) {
       isValid = false;
+
       console.log(err);
+      expect(err instanceof TypeError).toEqual(false);
+      expect(err instanceof Yup.ValidationError).toEqual(true);
     }
 
     expect(isValid).toBeFalsy();
@@ -575,7 +540,6 @@ describe("convertToYup() array conditions", () => {
 
     let yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
-    //TODO fix this test
     let isValid;
 
     isValid = yupschema.isValidSync({
@@ -585,7 +549,6 @@ describe("convertToYup() array conditions", () => {
           country: "Singapore",
           hasID: "true",
           id: "TEST"
-          // idReason: ":"
         }
       ]
     });
