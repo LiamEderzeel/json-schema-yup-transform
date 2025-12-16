@@ -32,7 +32,7 @@
     "@types/debug": "^4.1.12",
     "@types/json-schema": "^7.0.4",
     "@types/lodash": "^4.14.149",
-    "@types/stringify-object": "^3.2.0",
+    "@types/stringify-object": "^4.0.5",
     "coveralls": "^3.0.11",
     "typescript": "^5.8.3"
   },
