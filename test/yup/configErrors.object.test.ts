@@ -1,7 +1,8 @@
 import * as Yup from "yup";
-import type { JSONSchema } from "../../src/schema"
+import type { JSONSchema } from "../../src/schema";
 import type { Config } from "../../src";
 import convertToYup from "../../src";
+import { ValidationError } from "yup";
 
 describe("convertToYup() object configuration errors", () => {
   it("should show configuration error for incorrect data type", () => {
@@ -28,7 +29,9 @@ describe("convertToYup() object configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ address: "ABC" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Default object message");
   });
@@ -57,7 +60,9 @@ describe("convertToYup() object configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ address: "ABC" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("address field has custom error message");
   });
@@ -87,7 +92,9 @@ describe("convertToYup() object configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({});
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Address is required");
   });
@@ -118,7 +125,9 @@ describe("convertToYup() object configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({});
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe(
       "address field is in required fields. i.e. address"

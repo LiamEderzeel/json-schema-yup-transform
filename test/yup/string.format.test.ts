@@ -1,10 +1,11 @@
 import * as Yup from "yup";
-import type { JSONSchema } from "../../src/schema"
+import type { JSONSchema } from "../../src/schema";
 import convertToYup from "../../src";
+import { ValidationError } from "yup";
 
 describe("convertToYup() string format", () => {
   beforeEach(() => {
-    jest.spyOn(console, "warn").mockImplementation(() => {});
+    jest.spyOn(console, "warn").mockImplementation(() => { });
   });
 
   it("should validate date-time format", () => {
@@ -57,7 +58,9 @@ describe("convertToYup() string format", () => {
     try {
       errorMessage = yupschema.validateSync({ event: "(800)FLOWERS" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Event is an invalid date and time format");
   });
@@ -102,7 +105,9 @@ describe("convertToYup() string format", () => {
     try {
       errorMessage = yupschema.validateSync({ event: "(800)FLOWERS" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Event is an invalid time format");
   });
@@ -141,7 +146,9 @@ describe("convertToYup() string format", () => {
     try {
       errorMessage = yupschema.validateSync({ event: "(800)FLOWERS" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Event is an invalid date format");
   });
@@ -196,7 +203,9 @@ describe("convertToYup() string format", () => {
     try {
       errorMessage = yupschema.validateSync({ email: "test" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Email is an invalid email format");
   });
@@ -261,7 +270,9 @@ describe("convertToYup() string format", () => {
     try {
       errorMessage = yupschema.validateSync({ email: "test" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Email is an invalid international email format");
   });
@@ -299,7 +310,9 @@ describe("convertToYup() string format", () => {
     try {
       errorMessage = yupschema.validateSync({ website: "(800)FLOWERS" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Website is an invalid hostname format");
   });
@@ -342,7 +355,9 @@ describe("convertToYup() string format", () => {
     try {
       errorMessage = yupschema.validateSync({ website: "(800)FLOWERS" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe(
       "Website is an invalid international hostname format"
@@ -392,7 +407,9 @@ describe("convertToYup() string format", () => {
     try {
       errorMessage = yupschema.validateSync({ website: "(800)FLOWERS" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Website is an invalid ipv4 format");
   });
@@ -440,7 +457,9 @@ describe("convertToYup() string format", () => {
     try {
       errorMessage = yupschema.validateSync({ website: "(800)FLOWERS" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Website is an invalid ipv6 format");
   });
@@ -493,7 +512,9 @@ describe("convertToYup() string format", () => {
     try {
       errorMessage = yupschema.validateSync({ website: "(800)FLOWERS" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Website is an invalid URI format");
   });
@@ -532,7 +553,9 @@ describe("convertToYup() string format", () => {
     try {
       errorMessage = yupschema.validateSync({ website: "http://example.org" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Website is an invalid URI reference format");
   });

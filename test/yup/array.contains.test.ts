@@ -1,6 +1,7 @@
 import * as Yup from "yup";
-import type { JSONSchema } from "../../src/schema"
+import type { JSONSchema } from "../../src/schema";
 import convertToYup from "../../src";
+import { ValidationError } from "yup";
 
 describe("convertToYup() array contains", () => {
   it("should validate strings", () => {
@@ -54,7 +55,9 @@ describe("convertToYup() array contains", () => {
     try {
       valid = yupschema.validateSync({ things: [{}, 1] });
     } catch (e) {
-      valid = e.errors[0];
+      if (ValidationError.isError(e)) {
+        valid = e.errors[0];
+      }
     }
     expect(valid).toBe("Things must at least contain one item of type string");
   });
@@ -100,7 +103,9 @@ describe("convertToYup() array contains", () => {
     try {
       valid = yupschema.validateSync({ things: [null, false] });
     } catch (e) {
-      valid = e.errors[0];
+      if (ValidationError.isError(e)) {
+        valid = e.errors[0];
+      }
     }
     expect(valid).toBe("Things must at least contain one item of type number");
   });
@@ -151,7 +156,9 @@ describe("convertToYup() array contains", () => {
     try {
       valid = yupschema.validateSync({ things: [3.56, "a"] });
     } catch (e) {
-      valid = e.errors[0];
+      if (ValidationError.isError(e)) {
+        valid = e.errors[0];
+      }
     }
     expect(valid).toBe("Things must at least contain one item of type integer");
   });
@@ -197,7 +204,9 @@ describe("convertToYup() array contains", () => {
     try {
       valid = yupschema.validateSync({ things: [[], 1] });
     } catch (e) {
-      valid = e.errors[0];
+      if (ValidationError.isError(e)) {
+        valid = e.errors[0];
+      }
     }
     expect(valid).toBe("Things must at least contain one item of type boolean");
   });
@@ -243,7 +252,9 @@ describe("convertToYup() array contains", () => {
     try {
       valid = yupschema.validateSync({ things: ["a", 1] });
     } catch (e) {
-      valid = e.errors[0];
+      if (ValidationError.isError(e)) {
+        valid = e.errors[0];
+      }
     }
     expect(valid).toBe("Things must at least contain one item of type object");
   });
@@ -289,7 +300,9 @@ describe("convertToYup() array contains", () => {
     try {
       valid = yupschema.validateSync({ things: ["a", 1] });
     } catch (e) {
-      valid = e.errors[0];
+      if (ValidationError.isError(e)) {
+        valid = e.errors[0];
+      }
     }
     expect(valid).toBe("Things must at least contain one item of type array");
   });

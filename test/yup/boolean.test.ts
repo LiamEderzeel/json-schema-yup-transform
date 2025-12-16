@@ -1,6 +1,7 @@
 import * as Yup from "yup";
-import type { JSONSchema } from "../../src/schema"
+import type { JSONSchema } from "../../src/schema";
 import convertToYup from "../../src";
+import { ValidationError } from "yup";
 
 describe("convertToYup() boolean", () => {
   it("should validate boolean type", () => {
@@ -89,7 +90,9 @@ describe("convertToYup() boolean", () => {
     try {
       valid = yupschema.validateSync({});
     } catch (e) {
-      valid = e.errors[0];
+      if (ValidationError.isError(e)) {
+        valid = e.errors[0];
+      }
     }
     expect(valid).toBe("Enable is required");
   });
@@ -151,7 +154,9 @@ describe("convertToYup() boolean", () => {
     try {
       errorMessage = yupschema.validateSync({ isActive: false });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Isactive does not match constant");
   });
@@ -176,7 +181,9 @@ describe("convertToYup() boolean", () => {
     try {
       errorMessage = yupschema.validateSync({ isActive: "test" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe(`${fieldTitle} is not of type boolean`);
   });

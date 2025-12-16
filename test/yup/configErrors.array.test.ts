@@ -1,7 +1,8 @@
 import * as Yup from "yup";
-import type { JSONSchema } from "../../src/schema"
+import type { JSONSchema } from "../../src/schema";
 import convertToYup from "../../src";
 import type { Config } from "../../src";
+import { ValidationError } from "yup";
 
 describe("convertToYup() array configuration errors", () => {
   it("should show default configuration error for incorrect data type", () => {
@@ -28,7 +29,9 @@ describe("convertToYup() array configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ groceries: "ABC" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Default array message");
   });
@@ -57,7 +60,9 @@ describe("convertToYup() array configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ groceries: "ABC" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("groceries custom array error message");
   });
@@ -86,7 +91,9 @@ describe("convertToYup() array configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ groceries: "ABC" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Custom array message");
   });
@@ -115,7 +122,9 @@ describe("convertToYup() array configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ groceries: "ABC" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("groceries custom array message");
   });
@@ -145,7 +154,9 @@ describe("convertToYup() array configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({});
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Field is required");
   });
@@ -176,7 +187,9 @@ describe("convertToYup() array configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({});
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe(
       "groceries field is one of the required fields. i.e. groceries"
@@ -208,7 +221,9 @@ describe("convertToYup() array configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({});
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Groceries (array) is required");
   });
@@ -238,7 +253,9 @@ describe("convertToYup() array configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ groceries: [] });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("A minimum item of 3 is required");
   });
@@ -269,7 +286,9 @@ describe("convertToYup() array configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ groceries: [] });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("groceries field requires a minimum of 3");
   });
@@ -299,7 +318,9 @@ describe("convertToYup() array configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ groceries: [1, 2, 3, 4, 5] });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("A maximum item of 3 is required");
   });
@@ -330,7 +351,9 @@ describe("convertToYup() array configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ groceries: [1, 2, 3, 4, 5] });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("groceries field is only allowed a maximum of 3");
   });
@@ -362,7 +385,9 @@ describe("convertToYup() array configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ groceries: [null] });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("At least one value should be of type string");
   });
@@ -395,7 +420,9 @@ describe("convertToYup() array configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ groceries: [null] });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("groceries field needs a string type");
   });
@@ -427,7 +454,9 @@ describe("convertToYup() array configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ groceries: [null] });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("All values should be of type string");
   });
@@ -457,7 +486,9 @@ describe("convertToYup() array configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ groceries: [null] });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Value does not match expected type");
   });
@@ -505,7 +536,9 @@ describe("convertToYup() array configuration errors", () => {
         countries: [{ country: "Singapore" }]
       });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Country is required");
   });
@@ -535,7 +568,9 @@ describe("convertToYup() array configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ list: ["c"] });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Incorrect constant");
   });
@@ -566,7 +601,9 @@ describe("convertToYup() array configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ list: ["c"] });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe(`list field does not match a,b`);
   });
@@ -599,7 +636,9 @@ describe("convertToYup() array configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ list: ["c"] });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Incorrect enum");
   });
@@ -633,7 +672,9 @@ describe("convertToYup() array configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ list: ["c"] });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("list field does not match a,b,c,d");
   });
@@ -666,7 +707,9 @@ describe("convertToYup() array configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ items: ["b", "b"] });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("Incorrect uniqueItems");
   });
@@ -700,7 +743,9 @@ describe("convertToYup() array configuration errors", () => {
     try {
       errorMessage = yupschema.validateSync({ items: ["b", "b"] });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("items field has unique items");
   });

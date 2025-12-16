@@ -1,6 +1,7 @@
 import * as Yup from "yup";
-import type { JSONSchema } from "../../src/schema"
+import type { JSONSchema } from "../../src/schema";
 import convertToYup from "../../src";
+import { ValidationError } from "yup";
 
 describe("convertToYup() array", () => {
   it("should validate array type", () => {
@@ -93,7 +94,9 @@ describe("convertToYup() array", () => {
     try {
       valid = yupschema.validateSync({});
     } catch (e) {
-      valid = e.errors[0];
+      if (ValidationError.isError(e)) {
+        valid = e.errors[0];
+      }
     }
     expect(valid).toBe("Items is required");
   });
@@ -130,7 +133,9 @@ describe("convertToYup() array", () => {
     try {
       valid = yupschema.validateSync({ items: ["a", "b"] });
     } catch (e) {
-      valid = e.errors[0];
+      if (ValidationError.isError(e)) {
+        valid = e.errors[0];
+      }
     }
     expect(valid).toBe("Items requires a minimum of 3 items");
   });
@@ -169,7 +174,9 @@ describe("convertToYup() array", () => {
         items: ["a", "b", "c", "d", "e", "f", "g"]
       });
     } catch (e) {
-      valid = e.errors[0];
+      if (ValidationError.isError(e)) {
+        valid = e.errors[0];
+      }
     }
     expect(valid).toBe("Items cannot exceed a maximum of 6 items");
   });
@@ -203,7 +210,9 @@ describe("convertToYup() array", () => {
     try {
       errorMessage = yupschema.validateSync({ list: ["b"] });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("List does not match constant");
   });
@@ -240,7 +249,9 @@ describe("convertToYup() array", () => {
     try {
       errorMessage = yupschema.validateSync({ list: ["b"] });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe("List does not match any of the enumerables");
   });
@@ -304,7 +315,9 @@ describe("convertToYup() array", () => {
     try {
       valid = yupschema.validateSync({ items: ["b", "b"] });
     } catch (e) {
-      valid = e.errors[0];
+      if (ValidationError.isError(e)) {
+        valid = e.errors[0];
+      }
     }
     expect(valid).toBe("Items values are not unique");
   });
@@ -366,7 +379,9 @@ describe("convertToYup() array", () => {
     try {
       errorMessage = yupschema.validateSync({ item: "test" });
     } catch (e) {
-      errorMessage = e.errors[0];
+      if (ValidationError.isError(e)) {
+        errorMessage = e.errors[0];
+      }
     }
     expect(errorMessage).toBe(`${fieldTitle} is not of type array`);
   });

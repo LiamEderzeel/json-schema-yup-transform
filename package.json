@@ -2,6 +2,7 @@
   "name": "json-schema-yup-transformer",
   "author": "Ritchie Anesco <info@ritchieanesco.com>",
   "version": "1.6.11",
+  "type": "module",
   "description": "Transforms a draft 7 specification JSON Schema to a Yup Schema",
   "license": "MIT",
   "main": "dist/index.js",
@@ -37,8 +38,9 @@
     "coveralls": "^3.0.11",
     "jest": "^25.1.0",
     "ts-jest": "^25.2.1",
-    "typescript": "^3.8.3",
+    "typescript": "^5.8.3",
     "utf-8-validate": "^5.0.2"
   },
-  "keywords": []
+  "keywords": [],
+  "packageManager": "pnpm@10.1.0+sha512.c89847b0667ddab50396bbbd008a2a43cf3b581efd59cf5d9aa8923ea1fb4b8106c041d540d08acb095037594d73ebc51e1ec89ee40c88b30b8a66c0fae0ac1b"
 }
