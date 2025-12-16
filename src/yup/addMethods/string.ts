@@ -9,8 +9,8 @@ export function urlReference(
   this: Yup.StringSchema,
   message: string
 ): Yup.StringSchema {
-  return this.test("test-urlReference", message, function(input) {
+  return this.test("test-urlReference", message, function (input) {
     const { path, createError } = this;
-    return isRelativeUrl(input) || createError({ path, message });
+    return isRelativeUrl(input!) || createError({ path, message });
   });
 }

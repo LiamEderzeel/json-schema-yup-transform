@@ -1,7 +1,7 @@
 import isBoolean from "lodash/isBoolean";
 import capitalize from "lodash/capitalize";
 import { DataTypes } from "../../../schema";
-import type { JSONSchema } from "../../../schema"
+import type { JSONSchema } from "../../../schema";
 import Yup from "../../addMethods";
 import type { SchemaItem } from "../../types";
 import { getErrorMessage } from "../../config/";
@@ -15,22 +15,24 @@ import { createConstantSchema } from "../constant";
 const createBooleanSchema = (
   [key, value]: SchemaItem,
   jsonSchema: JSONSchema
-): Yup.BooleanSchema<boolean> => {
-  const {
-    description,
-    default: defaults,
-    title
-  } = value;
+): Yup.BooleanSchema<boolean | undefined, Yup.AnyObject, undefined, ""> => {
+  const { description, default: defaults, title } = value;
 
   const label = title || capitalize(key);
 
-  const defaultMessage = getErrorMessage(description, DataTypes.BOOLEAN, [key, { title }])
-    || `${label} is not of type boolean`;
+  const defaultMessage =
+    getErrorMessage(description, DataTypes.BOOLEAN, [key, { title }]) ||
+    `${label} is not of type boolean`;
 
   let Schema = Yup.boolean().typeError(defaultMessage);
 
   if (isBoolean(defaults)) {
-    Schema = Schema.concat(Schema.default(defaults));
+    Schema = Schema.concat(Schema.default(defaults)) as Yup.BooleanSchema<
+      boolean | undefined,
+      Yup.AnyObject,
+      undefined,
+      ""
+    >;
   }
 
   /** Determine if schema matches constant */

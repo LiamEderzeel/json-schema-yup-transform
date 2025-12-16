@@ -3,6 +3,7 @@ import capitalize from "lodash/capitalize";
 import type { JSONSchemaExtended } from "../../../schema";
 import { DataTypes, SchemaKeywords } from "../../../schema";
 import Yup from "../../addMethods";
+// import * as Yup from "yup";
 import { getErrorMessage } from "../../config/";
 import { createRequiredSchema } from "../required";
 import { createConstantSchema } from "../constant";
@@ -25,7 +26,7 @@ import {
 const createStringSchema = (
   [key, value]: [string, JSONSchemaExtended],
   jsonSchema: JSONSchemaExtended
-): Yup.StringSchema<string> => {
+): Yup.StringSchema<string | undefined, Yup.AnyObject, undefined, ""> => {
   const {
     description,
     default: defaults,
@@ -45,8 +46,8 @@ const createStringSchema = (
 
   let Schema = Yup.string().typeError(defaultMessage);
 
-  if (defaults) {
-    Schema = Schema.concat(Schema.default(defaults));
+  if (typeof defaults === 'string' || typeof defaults === 'undefined') {
+    Schema = Schema.concat(Schema.default(defaults)) as Yup.StringSchema<string | undefined, Yup.AnyObject, undefined, "">
   }
 
   /** Set required if ID is in required schema */

@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import type { JSONSchema } from "../../src/schema"
+import type { JSONSchema } from "../../src/schema";
 import convertToYup from "../../src";
 import { describe, expect, it } from "vitest";
 
@@ -34,7 +34,7 @@ describe("convertToYup() string conditions", () => {
         }
       ]
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       country: "Australia"
@@ -68,7 +68,7 @@ describe("convertToYup() string conditions", () => {
         }
       ]
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       country: "Australia"
@@ -114,7 +114,7 @@ describe("convertToYup() string conditions", () => {
         }
       ]
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     const notValid1 = yupschema.isValidSync({
       country: "Canada",
@@ -208,7 +208,7 @@ describe("convertToYup() string conditions", () => {
       required: ["location"]
     };
 
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     const isValid = yupschema.isValidSync({
       location: {

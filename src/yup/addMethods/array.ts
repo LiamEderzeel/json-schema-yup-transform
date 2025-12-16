@@ -15,16 +15,30 @@ import { validateItemsArray, isUnique } from "./utils";
  */
 
 export function minimumItems(
-  this: Yup.ArraySchema<unknown>,
+  this: Yup.ArraySchema<
+    unknown[] | undefined,
+    Yup.Maybe<Yup.AnyObject>,
+    undefined,
+    ""
+  >,
   count: number,
   message: string
-): Yup.ArraySchema<unknown> {
-  return this.test("test-minimumItems", message, function (input: unknown[]) {
-    const { path, createError } = this;
-    if (input === undefined) return true;
-    let isValid = isArray(input) && input.length >= count;
-    return isValid || createError({ path, message });
-  });
+): Yup.ArraySchema<
+  unknown[] | undefined,
+  Yup.Maybe<Yup.AnyObject>,
+  undefined,
+  ""
+> {
+  return this.test(
+    "test-minimumItems",
+    message,
+    function (input: unknown[] | undefined) {
+      const { path, createError } = this;
+      if (input === undefined) return true;
+      let isValid = isArray(input) && input.length >= count;
+      return isValid || createError({ path, message });
+    }
+  );
 }
 
 /**
@@ -33,16 +47,30 @@ export function minimumItems(
  */
 
 export function maximumItems(
-  this: Yup.ArraySchema<unknown>,
+  this: Yup.ArraySchema<
+    unknown[] | undefined,
+    Yup.Maybe<Yup.AnyObject>,
+    undefined,
+    ""
+  >,
   count: number,
   message: string
-): Yup.ArraySchema<unknown> {
-  return this.test("test-maximumItems", message, function (input: unknown[]) {
-    const { path, createError } = this;
-    if (input === undefined) return true;
-    let isValid = isArray(input) && input.length <= count;
-    return isValid || createError({ path, message });
-  });
+): Yup.ArraySchema<
+  unknown[] | undefined,
+  Yup.Maybe<Yup.AnyObject>,
+  undefined,
+  ""
+> {
+  return this.test(
+    "test-maximumItems",
+    message,
+    function (input: unknown[] | undefined) {
+      const { path, createError } = this;
+      if (input === undefined) return true;
+      let isValid = isArray(input) && input.length <= count;
+      return isValid || createError({ path, message });
+    }
+  );
 }
 
 /**
@@ -51,35 +79,49 @@ export function maximumItems(
  */
 
 export function contains(
-  this: Yup.ArraySchema<unknown>,
+  this: Yup.ArraySchema<
+    unknown[] | undefined,
+    Yup.Maybe<Yup.AnyObject>,
+    undefined,
+    ""
+  >,
   value: string,
   message: string
-): Yup.ArraySchema<unknown> {
-  return this.test("test-contains", message, function (input: unknown[]) {
-    const { path, createError } = this;
-    let isValid = false;
-    if (isArray(input)) {
-      if (value === DataTypes.NUMBER) {
-        isValid = input.some(isNumber);
+): Yup.ArraySchema<
+  unknown[] | undefined,
+  Yup.Maybe<Yup.AnyObject>,
+  undefined,
+  ""
+> {
+  return this.test(
+    "test-contains",
+    message,
+    function (input: unknown[] | undefined) {
+      const { path, createError } = this;
+      let isValid = false;
+      if (isArray(input)) {
+        if (value === DataTypes.NUMBER) {
+          isValid = input.some(isNumber);
+        }
+        if (value === DataTypes.INTEGER) {
+          isValid = input.some(isInteger);
+        }
+        if (value === DataTypes.STRING) {
+          isValid = input.some(isString);
+        }
+        if (value === DataTypes.BOOLEAN) {
+          isValid = input.some(isBoolean);
+        }
+        if (value === DataTypes.OBJECT) {
+          isValid = input.some(isPlainObject);
+        }
+        if (value === DataTypes.ARRAY) {
+          isValid = input.some(isArray);
+        }
       }
-      if (value === DataTypes.INTEGER) {
-        isValid = input.some(isInteger);
-      }
-      if (value === DataTypes.STRING) {
-        isValid = input.some(isString);
-      }
-      if (value === DataTypes.BOOLEAN) {
-        isValid = input.some(isBoolean);
-      }
-      if (value === DataTypes.OBJECT) {
-        isValid = input.some(isPlainObject);
-      }
-      if (value === DataTypes.ARRAY) {
-        isValid = input.some(isArray);
-      }
+      return isValid || createError({ path, message });
     }
-    return isValid || createError({ path, message });
-  });
+  );
 }
 
 /**
@@ -89,16 +131,30 @@ export function contains(
  */
 
 export function tuple(
-  this: Yup.ArraySchema<unknown>,
+  this: Yup.ArraySchema<
+    JSONSchemaDefinitionExtended[] | undefined,
+    Yup.Maybe<Yup.AnyObject>,
+    undefined,
+    ""
+  >,
   items: JSONSchemaDefinitionExtended[],
   message: string
-): Yup.ArraySchema<unknown> {
-  return this.test("test-tuple", message, function (input: JSONSchemaDefinitionExtended[]) {
-    const { path, createError } = this;
-    const validator = validateItemsArray(items);
-    const isValid = input.every(validator);
-    return isValid || createError({ path, message });
-  });
+): Yup.ArraySchema<
+  JSONSchemaDefinitionExtended[] | undefined,
+  Yup.Maybe<Yup.AnyObject>,
+  undefined,
+  ""
+> {
+  return this.test(
+    "test-tuple",
+    message,
+    function (input: JSONSchemaDefinitionExtended[] | undefined) {
+      const { path, createError } = this;
+      const validator = validateItemsArray(items);
+      const isValid = input?.every(validator);
+      return isValid || createError({ path, message });
+    }
+  );
 }
 
 /**
@@ -106,17 +162,31 @@ export function tuple(
  */
 
 export function uniqueItems(
-  this: Yup.ArraySchema<unknown>,
+  this: Yup.ArraySchema<
+    unknown[] | undefined,
+    Yup.Maybe<Yup.AnyObject>,
+    undefined,
+    ""
+  >,
   enable: boolean,
   message: string
-): Yup.ArraySchema<unknown> {
-  return this.test("test-unique-items", message, function (input: unknown[]) {
-    const { path, createError } = this;
-    // method will always be valid if uniqueItems property is set to false
-    if (!enable) return true;
-    if (!isArray(input)) return false;
-    // empty arrays are always considered valid
-    if (input.length === 0) return true;
-    return isUnique(input) || createError({ path, message });
-  });
+): Yup.ArraySchema<
+  unknown[] | undefined,
+  Yup.Maybe<Yup.AnyObject>,
+  undefined,
+  ""
+> {
+  return this.test(
+    "test-unique-items",
+    message,
+    function (input: unknown[] | undefined) {
+      const { path, createError } = this;
+      // method will always be valid if uniqueItems property is set to false
+      if (!enable) return true;
+      if (!isArray(input)) return false;
+      // empty arrays are always considered valid
+      if (input.length === 0) return true;
+      return isUnique(input) || createError({ path, message });
+    }
+  );
 }

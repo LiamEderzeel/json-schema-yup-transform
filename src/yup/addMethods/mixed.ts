@@ -2,6 +2,7 @@ import * as Yup from "yup";
 import isEqual from "lodash/isEqual";
 import type { JSONSchema } from "../../schema";
 import { isValueEnum } from "./utils";
+import { JSONSchema7Type } from "json-schema";
 
 /**
  * Validates whether input value matches const
@@ -12,12 +13,14 @@ export function constant(
   value: JSONSchema["const"],
   message: string
 ): Yup.MixedSchema {
-  return this.test("test-constant", message, function(
-    input: JSONSchema["const"]
-  ) {
-    const { path, createError } = this;
-    return isEqual(value, input) || createError({ path, message });
-  });
+  return this.test(
+    "test-constant",
+    message,
+    function (input: JSONSchema["const"]) {
+      const { path, createError } = this;
+      return isEqual(value, input) || createError({ path, message });
+    }
+  );
 }
 
 /**
@@ -25,12 +28,16 @@ export function constant(
  */
 
 export function enums(
-  this: Yup.MixedSchema,
+  this: Yup.MixedSchema<JSONSchema7Type[] | undefined>,
   value: JSONSchema["enum"],
   message: string
-): Yup.MixedSchema {
-  return this.test("test-enum", message, function(input: JSONSchema["enum"]) {
-    const { path, createError } = this;
-    return isValueEnum(value, input) || createError({ path, message });
-  });
+): Yup.MixedSchema<JSONSchema7Type[] | undefined> {
+  return this.test(
+    "test-enum",
+    message,
+    function (input: JSONSchema["enum"] | undefined) {
+      const { path, createError } = this;
+      return isValueEnum(value, input) || createError({ path, message });
+    }
+  );
 }

@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import type { JSONSchema } from "../../src/schema"
+import type { JSONSchema } from "../../src/schema";
 import convertToYup from "../../src";
 import { describe, expect, it } from "vitest";
 
@@ -32,7 +32,7 @@ describe("convertToYup() string conditions", () => {
         properties: {}
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       country: "Canada"
@@ -65,7 +65,7 @@ describe("convertToYup() string conditions", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       country: "Canada"
@@ -97,7 +97,7 @@ describe("convertToYup() string conditions", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       country: "Canada"
@@ -130,7 +130,7 @@ describe("convertToYup() string conditions", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       country: "Canada"
@@ -160,7 +160,7 @@ describe("convertToYup() string conditions", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       country: "Canada"
@@ -189,7 +189,7 @@ describe("convertToYup() string conditions", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       country: "Canada"
@@ -230,7 +230,7 @@ describe("convertToYup() string conditions", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       country: "Canada",
@@ -273,7 +273,7 @@ describe("convertToYup() string conditions", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       country: "Canada",
@@ -316,7 +316,7 @@ describe("convertToYup() string conditions", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       country: "Canada",
@@ -359,7 +359,7 @@ describe("convertToYup() string conditions", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       country: "Canada",
@@ -402,7 +402,7 @@ describe("convertToYup() string conditions", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       country: "Canada",
@@ -445,7 +445,7 @@ describe("convertToYup() string conditions", () => {
         required: ["postal_code"]
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       country: "Canada",
@@ -481,7 +481,7 @@ describe("convertToYup() string conditions", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       country: "Canada",
@@ -524,7 +524,7 @@ describe("convertToYup() string conditions", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       country: "Canada",
@@ -573,7 +573,7 @@ describe("convertToYup() string conditions", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       country: "Canada",
@@ -616,7 +616,7 @@ describe("convertToYup() string conditions", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       country: "Canada",
@@ -664,7 +664,7 @@ describe("convertToYup() string conditions", () => {
         }
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       country: "Canada",
@@ -712,7 +712,7 @@ describe("convertToYup() string conditions", () => {
       }
     };
 
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
     let isValid = yupschema.isValidSync({
       postcode: 3000,
       product: "ABC"
@@ -724,7 +724,6 @@ describe("convertToYup() string conditions", () => {
       product: "AB"
     });
     expect(isValid).toBeFalsy();
-
   });
 
   it("should validate required field", () => {
@@ -753,7 +752,7 @@ describe("convertToYup() string conditions", () => {
         required: ["postal_code", "state"]
       }
     };
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
+    const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
 
     let isValid = yupschema.isValidSync({
       country: "Australia",
@@ -769,71 +768,67 @@ describe("convertToYup() string conditions", () => {
   });
 });
 
-
 it("should validate other conditional", () => {
- 
-
-    const schema: JSONSchema = {
-      type: "object",
-      $schema: "http://json-schema.org/draft-07/schema#",
-      $id: "test",
-      title: "Test",
-      properties: {
-        mode: {
-          type: "string",
-          enum: ["C", "E"]
-        }
-      },
-      required: ["type"],
-      if: {
-        properties: { counmodetry: { type: "string", const: "E" } }
-      },
-      then: {
-        properties: {
-          namecorp: { type: "string" },
-          weburl: { type: "string" }
-        },
-        required: ["namecorp", "weburl"]
-      },
-      else: {
-        properties: {
-          firstname: { type: "string" },
-          lastname: { type: "string" }
-        },
-        required: ["firstname", "lastname"]
+  const schema: JSONSchema = {
+    type: "object",
+    $schema: "http://json-schema.org/draft-07/schema#",
+    $id: "test",
+    title: "Test",
+    properties: {
+      mode: {
+        type: "string",
+        enum: ["C", "E"]
       }
-    };
-
-    const yupschema = convertToYup(schema) as Yup.ObjectSchema;
-
-    const dataC = {
-      mode: "E",      
-      namecorp: "Micro",
-      weburl: "wwww.google.com",
-      firstname: undefined,
-      lastname : undefined
+    },
+    required: ["type"],
+    if: {
+      properties: { counmodetry: { type: "string", const: "E" } }
+    },
+    then: {
+      properties: {
+        namecorp: { type: "string" },
+        weburl: { type: "string" }
+      },
+      required: ["namecorp", "weburl"]
+    },
+    else: {
+      properties: {
+        firstname: { type: "string" },
+        lastname: { type: "string" }
+      },
+      required: ["firstname", "lastname"]
     }
-    
-    const dataE = {
-      mode: "C",
-      namecorp: undefined,
-      weburl: undefined,
-      firstname: "Albert",
-      lastname : "Einstein"
-    }
-    
-    try{
-      yupschema.validateSync(dataC)
-    }catch(error) { 
-      console.log('---->', error)
-    };
-    
-    let isValid = yupschema.isValidSync(dataC);
-    
-    expect(isValid).toBeTruthy();
-    
-    let isValid2 = yupschema.isValidSync(dataE);
-    
-    expect(isValid2).toBeTruthy();
+  };
 
+  const yupschema = convertToYup(schema) as Yup.ObjectSchema<object>;
+
+  const dataC = {
+    mode: "E",
+    namecorp: "Micro",
+    weburl: "wwww.google.com",
+    firstname: undefined,
+    lastname: undefined
+  };
+
+  const dataE = {
+    mode: "C",
+    namecorp: undefined,
+    weburl: undefined,
+    firstname: "Albert",
+    lastname: "Einstein"
+  };
+
+  try {
+    yupschema.validateSync(dataC);
+  } catch (error) {
+    console.log("---->", error);
+  }
+
+  let isValid = yupschema.isValidSync(dataC);
+
+  expect(isValid).toBeTruthy();
+
+  let isValid2 = yupschema.isValidSync(dataE);
+
+  expect(isValid2).toBeTruthy();
 });

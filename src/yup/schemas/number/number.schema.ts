@@ -1,7 +1,7 @@
 import isNumber from "lodash/isNumber";
 import capitalize from "lodash/capitalize";
 import { DataTypes, SchemaKeywords } from "../../../schema";
-import type { JSONSchema } from "../../../schema"
+import type { JSONSchema } from "../../../schema";
 import type { SchemaItem } from "../../types";
 import { getErrorMessage } from "../../config";
 import Yup from "../../addMethods";
@@ -16,7 +16,7 @@ import { createEnumerableSchema } from "../enumerables";
 const createNumberSchema = (
   [key, value]: SchemaItem,
   jsonSchema: JSONSchema
-): Yup.NumberSchema<number> => {
+) => {
   const { description, title } = value;
 
   const label = title || capitalize(key);
@@ -39,7 +39,7 @@ export const createBaseNumberSchema = (
   Schema: Yup.NumberSchema,
   [key, value]: SchemaItem,
   jsonSchema: JSONSchema
-): Yup.NumberSchema<number> => {
+): Yup.NumberSchema => {
   const {
     description,
     default: defaults,
@@ -58,8 +58,8 @@ export const createBaseNumberSchema = (
   const isExclusiveMaxNumber = isNumber(exclusiveMaximum);
   const isExclusiveMinNumber = isNumber(exclusiveMinimum);
 
-  if (isNumber(defaults)) {
-    Schema = Schema.concat(Schema.default(defaults));
+  if (isNumber(defaults) || typeof defaults === 'undefined') {
+    Schema = Schema.concat(Schema.default(defaults)) as Yup.NumberSchema<number | undefined, Yup.AnyObject, undefined, "">;
   }
 
   if (isExclusiveMinNumber && isMinNumber) {
@@ -96,7 +96,7 @@ export const createBaseNumberSchema = (
       );
 
     Schema = Schema.concat(
-      Schema.moreThan((exclusiveMinimum as number), message)
+      Schema.moreThan(exclusiveMinimum as number, message)
     );
   }
 
@@ -122,7 +122,7 @@ export const createBaseNumberSchema = (
       );
 
     Schema = Schema.concat(
-      Schema.lessThan((exclusiveMaximum as number), message)
+      Schema.lessThan(exclusiveMaximum as number, message)
     );
   }
 
@@ -147,7 +147,7 @@ export const createBaseNumberSchema = (
   /** Set required if ID is in required schema */
   Schema = createRequiredSchema(Schema, jsonSchema, [key, value]);
 
-  return Schema;
+  return Schema as Yup.NumberSchema;
 };
 
 export default createNumberSchema;

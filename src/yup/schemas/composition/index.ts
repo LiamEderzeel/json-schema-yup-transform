@@ -1,6 +1,12 @@
 import { capitalize } from "lodash";
-import { CompositSchemaTypes } from "../../../schema"
-import type { AnyOfSchema, AllOfSchema, JSONSchema, OneOfSchema , NotSchema } from "../../../schema"
+import { CompositSchemaTypes } from "../../../schema";
+import type {
+  AnyOfSchema,
+  AllOfSchema,
+  JSONSchema,
+  OneOfSchema,
+  NotSchema
+} from "../../../schema";
 import createValidationSchema from "..";
 import Yup from "../../addMethods";
 import { getErrorMessage } from "../../config";
@@ -11,14 +17,18 @@ import { getErrorMessage } from "../../config";
 export const createAnyOfSchema = (
   [key, value]: [string, AnyOfSchema],
   jsonSchema: JSONSchema
-): Yup.MixedSchema<string> => {
+): Yup.MixedSchema<string | undefined> => {
   const label = value.title || capitalize(key);
-  const message = getErrorMessage(value.description, CompositSchemaTypes.ANYOF, [key, { title: value.title }]) || `${label} does not match alternatives`;
+  const message =
+    getErrorMessage(value.description, CompositSchemaTypes.ANYOF, [
+      key,
+      { title: value.title }
+    ]) || `${label} does not match alternatives`;
   const schemas = value.anyOf.map((val) =>
     createValidationSchema([key, val as JSONSchema], jsonSchema)
   );
 
-  return Yup.mixed().test("one-of-schema", message, function (current) {
+  return Yup.mixed<string>().test("one-of-schema", message, function (current) {
     return schemas.some((s) => s.isValidSync(current, this.options));
   });
 };
@@ -29,15 +39,19 @@ export const createAnyOfSchema = (
 export const createAllOfSchema = (
   [key, value]: [string, AllOfSchema],
   jsonSchema: JSONSchema
-): Yup.MixedSchema<string> => {
+): Yup.MixedSchema<string | undefined> => {
   const label = value.title || capitalize(key);
-  const message = getErrorMessage(value.description, CompositSchemaTypes.ALLOF, [key, { title: value.title }]) || `${label} does not match all alternatives`;
+  const message =
+    getErrorMessage(value.description, CompositSchemaTypes.ALLOF, [
+      key,
+      { title: value.title }
+    ]) || `${label} does not match all alternatives`;
   const schemas = value.allOf
     .filter((el) => typeof el !== "boolean" && el.type)
     .map((val, i) =>
       createValidationSchema([`${key}[${i}]`, val as JSONSchema], jsonSchema)
     );
-  return Yup.mixed().test("all-of-schema", message, function (current) {
+  return Yup.mixed<string>().test("all-of-schema", message, function (current) {
     return schemas.every((s) => s.isValidSync(current, this.options));
   });
 };
@@ -48,14 +62,18 @@ export const createAllOfSchema = (
 export const createOneOfSchema = (
   [key, value]: [string, OneOfSchema],
   jsonSchema: JSONSchema
-): Yup.MixedSchema<string> => {
+): Yup.MixedSchema<string | undefined> => {
   const label = value.title || capitalize(key);
-  const message = getErrorMessage(value.description, CompositSchemaTypes.ONEOF, [key, { title: value.title }]) || `${label} does not match one alternative`;
+  const message =
+    getErrorMessage(value.description, CompositSchemaTypes.ONEOF, [
+      key,
+      { title: value.title }
+    ]) || `${label} does not match one alternative`;
   const schemas = value.oneOf.map((val, i) =>
     createValidationSchema([`${key}[${i}]`, val as JSONSchema], jsonSchema)
   );
 
-  return Yup.mixed().test("one-of-schema", message, function (current) {
+  return Yup.mixed<string>().test("one-of-schema", message, function (current) {
     return (
       schemas.filter((s) => s.isValidSync(current, this.options)).length === 1
     );
@@ -68,15 +86,19 @@ export const createOneOfSchema = (
 export const createNotSchema = (
   [key, value]: [string, NotSchema],
   jsonSchema: JSONSchema
-): Yup.MixedSchema<string> => {
+): Yup.MixedSchema<string | undefined> => {
   const label = value.title || capitalize(key);
-  const message = getErrorMessage(value.description, CompositSchemaTypes.NOT, [key, { title: value.title }]) || `${label} matches alternatives`;
+  const message =
+    getErrorMessage(value.description, CompositSchemaTypes.NOT, [
+      key,
+      { title: value.title }
+    ]) || `${label} matches alternatives`;
   const schema = createValidationSchema(
     [key, value.not as JSONSchema],
     jsonSchema
   );
 
-  return Yup.mixed().test("not-schema", message, function (current) {
+  return Yup.mixed<string>().test("not-schema", message, function (current) {
     return schema.isValidSync(current, this.options) === false;
   });
 };

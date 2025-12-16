@@ -19,7 +19,11 @@ export const buildProperties = (
   jsonSchema: JSONSchema
 ):
   | Record<string, any>
-  | { [key: string]: Yup.Lazy | Yup.MixedSchema<unknown> } => {
+  | {
+    [key: string]:
+    | Yup.Lazy<unknown, Yup.AnyObject, "">
+    | Yup.MixedSchema<unknown>;
+  } => {
   let schema: Record<string, any> = {};
 
   for (let [key, value] of Object.entries(properties)) {
@@ -32,8 +36,11 @@ export const buildProperties = (
     if (type === "object" && properties) {
       const objSchema = build(value);
       if (objSchema) {
-        const ObjectSchema = createValidationSchema([key, value], jsonSchema);
-        schema = { ...schema, [key]: ObjectSchema.concat(objSchema) };
+        const ObjectSchema = createValidationSchema([key, value], jsonSchema) as Yup.ObjectSchema<Yup.AnyObject>;
+
+        if ("concat" in ObjectSchema) {
+          schema = { ...schema, [key]: ObjectSchema.concat(objSchema) };
+        }
       }
     } else if (
       type === "array" &&
@@ -44,22 +51,27 @@ export const buildProperties = (
       const ArraySchema = createValidationSchema(
         [key, omit(value, "items")],
         jsonSchema
-      );
-      schema = {
-        ...schema,
-        [key]: ArraySchema.concat(Yup.array(build(items)))
-      };
+      ) as Yup.ArraySchema<any[] | undefined, Yup.AnyObject>;
+      if ("concat" in ArraySchema) {
+        schema = {
+          ...schema,
+          [key]: ArraySchema.concat(Yup.array(build(items)))
+        };
+      }
     } else if (type === "array" && isSchemaObject(items)) {
       const ArraySchema = createValidationSchema(
         [key, omit(value, "items")],
         jsonSchema
-      );
-      schema = {
-        ...schema,
-        [key]: ArraySchema.concat(
-          Yup.array(createValidationSchema([key, items], jsonSchema))
-        )
-      };
+      ) as Yup.ArraySchema<any[] | undefined, Yup.AnyObject>;
+
+      if ("concat" in ArraySchema) {
+        schema = {
+          ...schema,
+          [key]: ArraySchema.concat(
+            Yup.array(createValidationSchema([key, items], jsonSchema))
+          )
+        };
+      }
     } else {
       // Check if item has a then or else schema
       const condition = hasIfSchema(jsonSchema, key)
@@ -165,7 +177,9 @@ const createIsThenOtherwiseSchemaItem = (
   required: JSONSchema["required"]
 ):
   | {
-    [key: string]: Yup.Lazy | Yup.MixedSchema<unknown>;
+    [key: string]:
+    | Yup.Lazy<unknown, Yup.AnyObject, "">
+    | Yup.MixedSchema<unknown>;
   }
   | false => {
   const item: JSONSchema = {
@@ -208,7 +222,11 @@ const createIsThenOtherwiseSchema = (
       thenSchema.required
     );
     let matchingElseSchemaItem:
-      | { [key: string]: Yup.MixedSchema<unknown> | Yup.Lazy }
+      | {
+        [key: string]:
+        | Yup.MixedSchema<unknown>
+        | Yup.Lazy<unknown, Yup.AnyObject, "">;
+      }
       | false = false;
 
     if (
@@ -256,7 +274,32 @@ const createIsThenOtherwiseSchema = (
 
   // Generate Yup.when schemas from the schema object.
   const conditionalSchemas = Object.keys(schema).reduce((accum, next) => {
-    accum[next] = Yup.mixed().when(ifSchemaKey, { ...schema[next] });
+    // Get the conditional options for the current field (e.g., the 'if', 'then' parts)
+    const conditionalOptions = schema[next];
+
+    // Map over the options and wrap the 'then'/'otherwise' schemas in functions
+    const correctedOptions = Object.keys(conditionalOptions).reduce(
+      (opts, key) => {
+        const value = conditionalOptions[key];
+
+        // Check if the key is a schema branch that needs a functional wrapper
+        // if (key === "then" || key === "otherwise" || key === "else") {
+        if (key === "then" || key === "otherwise") {
+          // 💡 FIX: Wrap the schema value in a function: (currentSchema) => value
+          // The 'value' here is the original schema object (e.g., yup.string().required())
+          opts[key] = (currentSchema) => value;
+        } else {
+          // For 'is' and other simple keys, keep them as is
+          opts[key] = value;
+        }
+        return opts;
+      },
+      {}
+    );
+
+    // Now apply the correctly formatted options
+    accum[next] = Yup.mixed().when(ifSchemaKey, correctedOptions as { is: any; then: any; otherwise?: any });
+
     return accum;
   }, {});
 

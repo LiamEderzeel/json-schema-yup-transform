@@ -1,6 +1,6 @@
 import capitalize from "lodash/capitalize";
 import { DataTypes } from "../../../schema";
-import type { JSONSchema } from "../../../schema"
+import type { JSONSchema } from "../../../schema";
 import type { SchemaItem } from "../../types";
 import Yup from "../../addMethods";
 import { createRequiredSchema } from "../required";
@@ -13,29 +13,34 @@ import { buildProperties } from "../../builder";
 
 const createObjectSchema = (
   [key, value]: SchemaItem,
-  jsonSchema: JSONSchema): Yup.ObjectSchema<object> => {
-  const {
-    description,
-    title
-  } = value;
+  jsonSchema: JSONSchema
+): Yup.ObjectSchema<Yup.AnyObject> => {
+  const { description, title } = value;
 
   const label = title || capitalize(key);
 
-  const defaultMessage = getErrorMessage(description, DataTypes.OBJECT, [key, { title }])
-    || capitalize(`${label}  is not of type object`);
+  const defaultMessage =
+    getErrorMessage(description, DataTypes.OBJECT, [key, { title }]) ||
+    capitalize(`${label}  is not of type object`);
 
   // Seperate compositional schemas from standard schemas.
   // Standard schemas return Object schemas, compositional schemas return mixed or lazy schemas.
   // Lazy schemas can not be concatenated which will throw an error when traversing a nested object.
-  const schm = JSON.stringify(jsonSchema.properties)
-  const isComposition = schm.indexOf("anyOf") > -1 || schm.indexOf("oneOf") > -1
+  const schm = JSON.stringify(jsonSchema.properties);
+  const isComposition =
+    schm.indexOf("anyOf") > -1 || schm.indexOf("oneOf") > -1;
 
-  let Schema: Yup.ObjectSchema
+  let Schema: Yup.ObjectSchema<Yup.AnyObject>;
   if (isComposition) {
-    let shape = value.properties && buildProperties(value.properties, jsonSchema);
-    (value.required ?? []).forEach(requiredField => {
+    let shape =
+      value.properties && buildProperties(value.properties, jsonSchema);
+    (value.required ?? []).forEach((requiredField) => {
       if (shape !== undefined) {
-        shape[requiredField] = createRequiredSchema(shape[requiredField], value, [requiredField, value])
+        shape[requiredField] = createRequiredSchema(
+          shape[requiredField],
+          value,
+          [requiredField, value]
+        );
       }
     });
     Schema = Yup.object(shape).typeError(defaultMessage);
