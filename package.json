@@ -25,7 +25,7 @@
     "is-relative-url": "4.1.0",
     "lodash": "4.17.21",
     "stringify-object": "^3.3.0",
-    "vitest": "^3.2.4",
+    "vitest": "^4.0.16",
     "yup": "^1.7.1"
   },
   "devDependencies": {
