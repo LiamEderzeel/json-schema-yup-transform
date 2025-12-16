@@ -406,9 +406,7 @@ describe("convertToYup() array conditions", () => {
     try {
       const value = {
         a: "1",
-        b: "non"
-        // e: "e"
-        // b: "b"
+        e: "non"
       };
       errorMessage = yupschema.validateSync(value);
       isValid = errorMessage ?? true;
@@ -512,16 +510,11 @@ describe("convertToYup() array conditions", () => {
     //TODO fix this test
     let isValid = false;
     let errorMessage;
+
     try {
       const value = {
-        a: "1",
-        // b: "non"
-        c: "c",
-        d: "1",
-        f: "d"
-        // g: "g"
-        // i: "g"
-        // f: "g"
+        a: "a",
+        b: "b"
       };
       errorMessage = yupschema.validateSync(value);
       isValid = errorMessage ?? true;
@@ -535,12 +528,27 @@ describe("convertToYup() array conditions", () => {
       expect(err.path).toEqual("h");
     }
 
-    expect(isValid).toBeTruthy();
+    try {
+      const value = {
+        a: "a"
+      };
+      errorMessage = yupschema.validateSync(value);
+      isValid = errorMessage ?? true;
+      // isValid = yupschema.isValidSync(schema);
+    } catch (err) {
+      isValid = false;
+
+      console.log(err);
+      expect(err instanceof TypeError).toEqual(false);
+      expect(err instanceof Yup.ValidationError).toEqual(true);
+      expect(err.path).toEqual("b");
+    }
+
+    expect(isValid).toBeFalsy();
 
     try {
       const value = {
         a: "1"
-        // b: "non"
       };
       errorMessage = yupschema.validateSync(value);
       isValid = errorMessage ?? true;
@@ -558,8 +566,8 @@ describe("convertToYup() array conditions", () => {
 
     try {
       const value = {
-        a: "a"
-        // b: "non"
+        a: "1",
+        c: "c"
       };
       errorMessage = yupschema.validateSync(value);
       isValid = errorMessage ?? true;
@@ -570,10 +578,131 @@ describe("convertToYup() array conditions", () => {
       console.log(err);
       expect(err instanceof TypeError).toEqual(false);
       expect(err instanceof Yup.ValidationError).toEqual(true);
-      expect(err.path).toEqual("b");
+      expect(err.path).toEqual("d");
     }
 
     expect(isValid).toBeFalsy();
+
+    try {
+      const value = {
+        a: "1",
+        c: "1"
+      };
+      errorMessage = yupschema.validateSync(value);
+      isValid = errorMessage ?? true;
+      // isValid = yupschema.isValidSync(schema);
+    } catch (err) {
+      isValid = false;
+
+      console.log(err);
+      expect(err instanceof TypeError).toEqual(false);
+      expect(err instanceof Yup.ValidationError).toEqual(true);
+      expect(err.path).toEqual("g");
+    }
+
+    expect(isValid).toBeFalsy();
+
+    try {
+      const value = {
+        a: "1",
+        c: "1",
+        f: "f"
+      };
+      errorMessage = yupschema.validateSync(value);
+      isValid = errorMessage ?? true;
+      // isValid = yupschema.isValidSync(schema);
+    } catch (err) {
+      isValid = false;
+
+      console.log(err);
+      expect(err instanceof TypeError).toEqual(false);
+      expect(err instanceof Yup.ValidationError).toEqual(true);
+      expect(err.path).toEqual("g");
+    }
+
+    expect(isValid).toBeFalsy();
+
+    try {
+      const value = {
+        a: "1",
+        c: "c",
+        d: "d"
+      };
+      errorMessage = yupschema.validateSync(value);
+      isValid = errorMessage ?? true;
+      // isValid = yupschema.isValidSync(schema);
+    } catch (err) {
+      isValid = false;
+
+      console.log(err);
+      expect(err instanceof TypeError).toEqual(false);
+      expect(err instanceof Yup.ValidationError).toEqual(true);
+      expect(err.path).toEqual("e");
+    }
+
+    expect(isValid).toBeFalsy();
+
+    try {
+      const value = {
+        a: "1",
+        c: "c",
+        d: "d",
+        e: "e"
+      };
+      errorMessage = yupschema.validateSync(value);
+      isValid = errorMessage ?? true;
+      // isValid = yupschema.isValidSync(schema);
+    } catch (err) {
+      isValid = false;
+
+      console.log(err);
+      expect(err instanceof TypeError).toEqual(false);
+      expect(err instanceof Yup.ValidationError).toEqual(true);
+      expect(err.path).toEqual("e");
+    }
+
+    expect(isValid).toBeTruthy();
+
+    try {
+      const value = {
+        a: "1",
+        c: "c",
+        d: "1"
+      };
+      errorMessage = yupschema.validateSync(value);
+      isValid = errorMessage ?? true;
+      // isValid = yupschema.isValidSync(schema);
+    } catch (err) {
+      isValid = false;
+
+      console.log(err);
+      expect(err instanceof TypeError).toEqual(false);
+      expect(err instanceof Yup.ValidationError).toEqual(true);
+      expect(err.path).toEqual("f");
+    }
+
+    expect(isValid).toBeFalsy();
+
+    try {
+      const value = {
+        a: "1",
+        c: "c",
+        d: "1",
+        f: "d"
+      };
+      errorMessage = yupschema.validateSync(value);
+      isValid = errorMessage ?? true;
+      // isValid = yupschema.isValidSync(schema);
+    } catch (err) {
+      isValid = false;
+
+      console.log(err);
+      expect(err instanceof TypeError).toEqual(false);
+      expect(err instanceof Yup.ValidationError).toEqual(true);
+      expect(err.path).toEqual("h");
+    }
+
+    expect(isValid).toBeTruthy();
   });
 
   it("should validate nested conditions deeply", () => {
@@ -674,8 +803,7 @@ describe("convertToYup() array conditions", () => {
       const value = {
         step1: "1",
         step2: "test",
-        step3: "3",
-        step4: "4"
+        else: "3"
       };
       errorMessage = yupschema.validateSync(value);
       isValid = errorMessage ?? true;
