@@ -7,6 +7,40 @@ import Yup from "../addMethods/";
 import { getProperties, isSchemaObject } from "../../schema/";
 import createValidationSchema from "../schemas/";
 import { getObjectHead } from "../utils";
+import { debug } from "debug";
+
+const isDev = import.meta.env.DEV;
+const bugger = debug("JsonSchemaYupTransform::Builder::ConditionalSchema");
+
+const Color = {
+  Reset: "\x1b[0m",
+  Bright: "\x1b[1m",
+  Dim: "\x1b[2m",
+  Underscore: "\x1b[4m",
+  Blink: "\x1b[5m",
+  Reverse: "\x1b[7m",
+  Hidden: "\x1b[8m",
+
+  FgBlack: "\x1b[30m",
+  FgRed: "\x1b[31m",
+  FgGreen: "\x1b[32m",
+  FgYellow: "\x1b[33m",
+  FgBlue: "\x1b[34m",
+  FgMagenta: "\x1b[35m",
+  FgCyan: "\x1b[36m",
+  FgWhite: "\x1b[37m",
+  FgGray: "\x1b[90m",
+
+  BgBlack: "\x1b[40m",
+  BgRed: "\x1b[41m",
+  BgGreen: "\x1b[42m",
+  BgYellow: "\x1b[43m",
+  BgBlue: "\x1b[44m",
+  BgMagenta: "\x1b[45m",
+  BgCyan: "\x1b[46m",
+  BgWhite: "\x1b[47m",
+  BgGray: "\x1b[100m"
+};
 
 /**
  * Iterate through each item in properties and generate a key value pair of yup schema
@@ -36,7 +70,10 @@ export const buildProperties = (
     if (type === "object" && properties) {
       const objSchema = build(value);
       if (objSchema) {
-        const ObjectSchema = createValidationSchema([key, value], jsonSchema) as Yup.ObjectSchema<Yup.AnyObject>;
+        const ObjectSchema = createValidationSchema(
+          [key, value],
+          jsonSchema
+        ) as Yup.ObjectSchema<Yup.AnyObject>;
 
         if ("concat" in ObjectSchema) {
           schema = { ...schema, [key]: ObjectSchema.concat(objSchema) };
@@ -77,6 +114,7 @@ export const buildProperties = (
       const condition = hasIfSchema(jsonSchema, key)
         ? createConditionalSchema(jsonSchema)
         : {};
+      // if (Object.keys(condition).length > 0) console.log(condition);
       // Check if item has if schema in allOf array
       const conditions = hasAllOfIfSchema(jsonSchema, key)
         ? jsonSchema.allOf?.reduce((all, schema) => {
@@ -138,10 +176,76 @@ const isValidator =
       return result;
     };
 
+type CallbackItem = {
+  callback: (val: unknown) => boolean;
+  inverted: boolean;
+  key: string;
+};
+
+const isValidWrapParentConditions = (callbacks: CallbackItem[]) => {
+  // We use Array.prototype.reduceRight to build the function chain
+  // from the end of the array to the beginning.
+
+  // The initial accumulator (acc) is a function that always returns true,
+  // representing the end of the chain.
+  const initialAccumulator: (...args: unknown[]) => boolean = () => true;
+
+  const finalValidator = callbacks.reduceRight(
+    (acc: (...args: unknown[]) => boolean, currentCallback: CallbackItem) => {
+      // 1. Capture the values for *this* step of the reduction.
+      const key = currentCallback.key;
+      const check = currentCallback.callback;
+      const inverted = currentCallback.inverted;
+
+      // 2. Return the new function (the closure) that incorporates the
+      // current check and calls the previously accumulated function (acc).
+      return (...args: unknown[]) => {
+        // We assume the check only uses the first argument 'a'
+        const [a, ...otherArgs] = args;
+
+        const logWrapper = (val: unknown) => {
+          // This uses the unique 'key' captured from the current reduction step.
+          // console.log(`key: ${key}`);
+          // console.log(`val: ${val}`);
+          return check(val);
+        };
+
+        // Check the current condition:
+        // If the check result is the same as the inverted flag, the condition fails.
+        // console.log(a);
+        // console.log(logWrapper(a));
+        if (logWrapper(a) === inverted) {
+          // if (logWrapper(a) === false) {
+          return false;
+        }
+
+        // Call the rest of the chain (the accumulated function)
+        if (!acc(otherArgs)) {
+          return false;
+        }
+
+        return true;
+      };
+    },
+    initialAccumulator
+  );
+
+  return finalValidator;
+};
+
 /** Build `is`, `then`, `otherwise` validation schema */
 
 const createConditionalSchema = (
-  jsonSchema: JSONSchema
+  jsonSchema: JSONSchema,
+  parentValidators: {
+    keys: string[];
+    callback: {
+      callback: (val: unknown) => boolean;
+      inverted: boolean;
+      key: string;
+    }[];
+  } = { keys: [], callback: [] },
+  isElse: boolean = false
 ): false | { [key: string]: Yup.MixedSchema } => {
   const ifSchema = get(jsonSchema, "if");
   if (!isSchemaObject(ifSchema)) return false;
@@ -153,18 +257,97 @@ const createConditionalSchema = (
   if (!ifSchemaHead) return false;
 
   const [ifSchemaKey, ifSchemaValue] = ifSchemaHead;
-  if (!isSchemaObject(ifSchemaValue)) return false;
+  if (!isSchemaObject(ifSchemaValue)) false;
 
   const thenSchema = get(jsonSchema, "then");
 
   if (isSchemaObject(thenSchema)) {
     const elseSchema = get(jsonSchema, "else");
     const isValid = isValidator([ifSchemaKey, ifSchemaValue], ifSchema);
-    return createIsThenOtherwiseSchema(
-      [ifSchemaKey, isValid],
+
+    const { callback } = parentValidators;
+
+    const newCallback = [...callback];
+
+    if (newCallback.length > 0) {
+      // 3. Find the index of the last element
+      const lastIndex = newCallback.length - 1;
+
+      // 4. Create a copy of the last element and set 'inverted: true'
+      // This is important for deep nested objects to avoid mutation side-effects
+      newCallback[lastIndex] = {
+        ...newCallback[lastIndex], // Copy all existing properties
+        inverted: isElse // Override/set 'inverted' to true
+      };
+    }
+    const allCallBacks = [
+      ...newCallback,
+      { callback: isValid, inverted: false, key: ifSchemaKey }
+    ];
+
+    // console.log(isElse ? "otherwise" : "then");
+    // console.log(allCallBacks);
+    const validatorStack =
+      (e: boolean) =>
+        (...val: unknown[]) => {
+          const indent = (n: number) => {
+            let res = "";
+            for (let i = 0; i < n; i++) {
+              res += "\t";
+            }
+            return res;
+          };
+
+          const formatColor = (value: string, color: string) => {
+            return `${color}${value}${Color.Reset}`;
+          };
+
+          const things = [
+            ...newCallback,
+            { callback: isValid, inverted: e, key: ifSchemaKey }
+          ];
+
+          let log = "";
+          log += `\n╭─ check: ${Color.FgBlue}${[...parentValidators.keys, ifSchemaKey].join(`${Color.Reset} > ${Color.FgBlue}`)}${Color.Reset} ${isElse ? "then" : "otherwise"} brance\n│`;
+
+          let passAll = true;
+          for (const [i, c] of things.entries()) {
+            const failed = passAll ? c.callback(val[i]) === c.inverted : true;
+            const pass = !failed;
+
+            log += `\n│${indent(i + 1)}╭─ check ${formatColor(c.key, Color.FgBlue)} ${c.inverted ? "otherwise" : "then"} brance condition`;
+            log += `\n│${indent(i + 1)}│  value: ${val[i]} `;
+
+            log += `\n│${indent(i + 1)}│  inverted: ${c.inverted} `;
+            log += `\n│${indent(i + 1)}╰─ result: ${formatColor(passAll ? pass.toString() : "skiped", passAll ? (pass ? Color.FgGreen : Color.FgRed) : Color.FgGray)}${Color.Reset} ${things.length - 1 > i ? `${pass ? Color.FgWhite : Color.FgGray}╮${Color.Reset}\n│${indent(i + 3)}${passAll ? (pass ? "" : " ") : "  "}${pass ? Color.FgWhite : Color.FgGray}│${Color.Reset}` : ""}`;
+
+            if (failed) {
+              passAll = false;
+              if (!isDev) continue;
+            }
+          }
+          log += `\n│\n╰result: ${passAll ? Color.FgGreen : Color.FgRed}${passAll}${Color.Reset}\n`;
+
+          bugger(log);
+
+          return passAll;
+        };
+
+    const res = createIsThenOtherwiseSchema(
+      {
+        keys: [...parentValidators.keys, ifSchemaKey],
+        callback: allCallBacks
+      },
+      [
+        [...parentValidators.keys, ifSchemaKey],
+        validatorStack(false),
+        validatorStack(true)
+      ],
       thenSchema,
       elseSchema
     );
+    // console.log(res);
+    return res;
   }
 
   return false;
@@ -196,11 +379,24 @@ const createIsThenOtherwiseSchemaItem = (
 /** `createIsThenOtherwiseSchema` generates a yup when schema. */
 
 const createIsThenOtherwiseSchema = (
-  [ifSchemaKey, callback]: [string, (val: unknown) => boolean],
+  parentValidators: {
+    keys: string[];
+    callback: {
+      callback: (val: unknown) => boolean;
+      inverted: boolean;
+      key: string;
+    }[];
+  },
+  [ifSchemaKey, callback, callbackElse]: [
+    string[],
+    (...val: unknown[]) => boolean,
+    (...val: unknown[]) => boolean
+  ],
   thenSchema: JSONSchema,
   elseSchema?: JSONSchemaDefinition
 ): false | { [key: string]: Yup.MixedSchema } => {
   if (!thenSchema.properties) return false;
+  // console.log(ifSchemaKey);
 
   let thenKeys = Object.keys(thenSchema.properties);
   // Collect all else schema keys and deduct from list when there is a matching then schema key. The remaining else keys will then be handled seperately.
@@ -242,6 +438,7 @@ const createIsThenOtherwiseSchema = (
       if (elseKeys.length) elseKeys.splice(elseKeys.indexOf(thenKey), 1);
     }
 
+    // console.log(callback.toString());
     schema[thenKey] = {
       is: callback,
       then: thenSchemaItem,
@@ -264,7 +461,8 @@ const createIsThenOtherwiseSchema = (
         if (elseSchemaItem) {
           schema[k] = {
             // Hardcode false as else schema's should handle "unhappy" path.
-            is: (schema: unknown) => callback(schema) === false,
+            // is: (schema: unknown) => callback(schema) === false,
+            is: callbackElse,
             then: elseSchemaItem
           };
         }
@@ -298,17 +496,25 @@ const createIsThenOtherwiseSchema = (
     );
 
     // Now apply the correctly formatted options
-    accum[next] = Yup.mixed().when(ifSchemaKey, correctedOptions as { is: any; then: any; otherwise?: any });
+    accum[next] = Yup.mixed().when(
+      ifSchemaKey,
+      correctedOptions as { is: any; then: any; otherwise?: any }
+    );
 
     return accum;
   }, {});
 
-  // Create conditional schema for if schema's within else schema.
   let nestedConditionalSchemas = {};
+  if (isSchemaObject(thenSchema) && get(thenSchema, "if")) {
+    nestedConditionalSchemas = {
+      ...nestedConditionalSchemas,
+      ...createConditionalSchema(thenSchema, parentValidators)
+    };
+  }
   if (isSchemaObject(elseSchema) && get(elseSchema, "if")) {
     nestedConditionalSchemas = {
       ...nestedConditionalSchemas,
-      ...createConditionalSchema(elseSchema)
+      ...createConditionalSchema(elseSchema, parentValidators, true)
     };
   }
 

@@ -453,7 +453,10 @@ describe("convertToYup() array configuration errors", () => {
     const yupschema = convertToYup(schema, config) as Yup.ObjectSchema<object>;
     let errorMessage;
     try {
-      errorMessage = yupschema.validateSync({ groceries: [null] });
+      errorMessage = yupschema.validateSync(
+        { groceries: [1] },
+        { strict: true }
+      );
     } catch (e) {
       if (ValidationError.isError(e)) {
         errorMessage = e.errors[0];
