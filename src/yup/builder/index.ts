@@ -7,6 +7,10 @@ import Yup from "../addMethods/";
 import { getProperties, isSchemaObject } from "../../schema/";
 import createValidationSchema from "../schemas/";
 import { getObjectHead } from "../utils";
+import { debug } from "debug";
+
+const isDev = import.meta.env.DEV;
+const bugger = debug("JsonSchemaYupTransform::Builder::ConditionalSchema");
 
 const Color = {
   Reset: "\x1b[0m",
@@ -50,10 +54,10 @@ export const buildProperties = (
 ):
   | Record<string, any>
   | {
-      [key: string]:
-        | Yup.Lazy<unknown, Yup.AnyObject, "">
-        | Yup.MixedSchema<unknown>;
-    } => {
+    [key: string]:
+    | Yup.Lazy<unknown, Yup.AnyObject, "">
+    | Yup.MixedSchema<unknown>;
+  } => {
   let schema: Record<string, any> = {};
 
   for (let [key, value] of Object.entries(properties)) {
@@ -114,11 +118,11 @@ export const buildProperties = (
       // Check if item has if schema in allOf array
       const conditions = hasAllOfIfSchema(jsonSchema, key)
         ? jsonSchema.allOf?.reduce((all, schema) => {
-            if (typeof schema === "boolean") {
-              return all;
-            }
-            return { ...all, ...createConditionalSchema(schema) };
-          }, [])
+          if (typeof schema === "boolean") {
+            return all;
+          }
+          return { ...all, ...createConditionalSchema(schema) };
+        }, [])
         : [];
       const newSchema = createValidationSchema([key, value], jsonSchema);
       schema = {
@@ -166,11 +170,11 @@ const hasAllOfIfSchema = (jsonSchema: JSONSchema, key: string): boolean => {
 
 const isValidator =
   ([key, value]: [string, JSONSchema], jsonSchema: JSONSchema) =>
-  (val: unknown): boolean => {
-    const conditionalSchema = createValidationSchema([key, value], jsonSchema);
-    const result: boolean = conditionalSchema.isValidSync(val);
-    return result;
-  };
+    (val: unknown): boolean => {
+      const conditionalSchema = createValidationSchema([key, value], jsonSchema);
+      const result: boolean = conditionalSchema.isValidSync(val);
+      return result;
+    };
 
 type CallbackItem = {
   callback: (val: unknown) => boolean;
@@ -285,46 +289,49 @@ const createConditionalSchema = (
     // console.log(allCallBacks);
     const validatorStack =
       (e: boolean) =>
-      (...val: unknown[]) => {
-        const indent = (n: number) => {
-          let res = "";
-          for (let i = 0; i < n; i++) {
-            res += "\t";
+        (...val: unknown[]) => {
+          const indent = (n: number) => {
+            let res = "";
+            for (let i = 0; i < n; i++) {
+              res += "\t";
+            }
+            return res;
+          };
+
+          const formatColor = (value: string, color: string) => {
+            return `${color}${value}${Color.Reset}`;
+          };
+
+          const things = [
+            ...newCallback,
+            { callback: isValid, inverted: e, key: ifSchemaKey }
+          ];
+
+          let log = "";
+          log += `\n╭─ check: ${Color.FgBlue}${[...parentValidators.keys, ifSchemaKey].join(`${Color.Reset} > ${Color.FgBlue}`)}${Color.Reset} ${isElse ? "then" : "otherwise"} brance\n│`;
+
+          let passAll = true;
+          for (const [i, c] of things.entries()) {
+            const failed = passAll ? c.callback(val[i]) === c.inverted : true;
+            const pass = !failed;
+
+            log += `\n│${indent(i + 1)}╭─ check ${formatColor(c.key, Color.FgBlue)} ${c.inverted ? "otherwise" : "then"} brance condition`;
+            log += `\n│${indent(i + 1)}│  value: ${val[i]} `;
+
+            log += `\n│${indent(i + 1)}│  inverted: ${c.inverted} `;
+            log += `\n│${indent(i + 1)}╰─ result: ${formatColor(passAll ? pass.toString() : "skiped", passAll ? (pass ? Color.FgGreen : Color.FgRed) : Color.FgGray)}${Color.Reset} ${things.length - 1 > i ? `${pass ? Color.FgWhite : Color.FgGray}╮${Color.Reset}\n│${indent(i + 3)}${passAll ? (pass ? "" : " ") : "  "}${pass ? Color.FgWhite : Color.FgGray}│${Color.Reset}` : ""}`;
+
+            if (failed) {
+              passAll = false;
+              if (!isDev) continue;
+            }
           }
-          return res;
+          log += `\n│\n╰result: ${passAll ? Color.FgGreen : Color.FgRed}${passAll}${Color.Reset}\n`;
+
+          bugger(log);
+
+          return passAll;
         };
-
-        console.log(
-          `__ start: ${[...parentValidators.keys, ifSchemaKey]} ${isElse ? "then" : "otherwise"}`
-        );
-        // const res = isValid(val[0]);
-        const things = [
-          ...newCallback,
-          { callback: isValid, inverted: e, key: ifSchemaKey }
-        ];
-        console.log(things);
-
-        for (const [i, c] of things.entries()) {
-          console.log(`${indent(i)}key: ${c.key}`);
-          console.log(
-            `${indent(i)}values: ${val.reduce((p, c) => (p += `, ${c ? c : "undefined"}`))}`
-          );
-          console.log(`${indent(i)}value: ${val[i]}`);
-          const valires = c.callback(val[i]);
-          console.log(`${indent(i)}valires: ${valires}`);
-          console.log(`${indent(i)}inverted: ${c.inverted}`);
-          if (valires === c.inverted) {
-            console.log(`${indent(i)}res: ${Color.FgRed}false${Color.Reset}`);
-            console.log(`__ end: ${[...parentValidators.keys, ifSchemaKey]}\n`);
-            return false;
-            console.log(false);
-          } else {
-            console.log(`${indent(i)}res: ${Color.FgGreen}true${Color.Reset}`);
-          }
-        }
-        console.log(`__ end: ${[...parentValidators.keys, ifSchemaKey]}\n`);
-        return true;
-      };
 
     const res = createIsThenOtherwiseSchema(
       {
@@ -353,10 +360,10 @@ const createIsThenOtherwiseSchemaItem = (
   required: JSONSchema["required"]
 ):
   | {
-      [key: string]:
-        | Yup.Lazy<unknown, Yup.AnyObject, "">
-        | Yup.MixedSchema<unknown>;
-    }
+    [key: string]:
+    | Yup.Lazy<unknown, Yup.AnyObject, "">
+    | Yup.MixedSchema<unknown>;
+  }
   | false => {
   const item: JSONSchema = {
     properties: { [key]: { ...value } }
@@ -412,10 +419,10 @@ const createIsThenOtherwiseSchema = (
     );
     let matchingElseSchemaItem:
       | {
-          [key: string]:
-            | Yup.MixedSchema<unknown>
-            | Yup.Lazy<unknown, Yup.AnyObject, "">;
-        }
+        [key: string]:
+        | Yup.MixedSchema<unknown>
+        | Yup.Lazy<unknown, Yup.AnyObject, "">;
+      }
       | false = false;
 
     if (
@@ -441,7 +448,6 @@ const createIsThenOtherwiseSchema = (
 
   // Generate schemas for else keys that do not match the "then" schema.
   if (elseKeys.length) {
-    console.log(elseKeys);
     elseKeys.forEach((k) => {
       if (
         isSchemaObject(elseSchema) &&

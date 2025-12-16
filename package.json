@@ -17,9 +17,11 @@
   "scripts": {
     "build": "tsc",
     "test": "vitest",
+    "test:debug": "DEBUG='JsonSchemaYupTransform::Builder::ConditionalSchema' vitest",
     "test:types": "tsc --noEmit"
   },
   "dependencies": {
+    "debug": "^4.4.3",
     "is-relative-url": "3.0.0",
     "lodash": "4.17.21",
     "stringify-object": "^3.3.0",
@@ -27,6 +29,7 @@
     "yup": "^1.7.1"
   },
   "devDependencies": {
+    "@types/debug": "^4.1.12",
     "@types/is-relative-url": "^3.0.0",
     "@types/json-schema": "^7.0.4",
     "@types/lodash": "^4.14.149",

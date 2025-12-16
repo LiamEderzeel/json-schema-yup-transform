@@ -2,7 +2,7 @@
   "compilerOptions": {
     "strict": true,
     "target": "ESNext",
-    "module": "es6",
+    "module": "ESNext",
     "jsx": "preserve",
     "esModuleInterop": true,
     "sourceMap": true,
@@ -22,11 +22,20 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": false,
-    "lib": ["ESNext", "dom", "dom.iterable", "webworker"],
+    "lib": [
+      "ESNext",
+      "dom",
+      "dom.iterable",
+      "webworker"
+    ],
     "rootDir": "src",
     "outDir": "dist",
     "moduleResolution": "node",
-    "typeRoots": ["node_modules/@types"]
+    "typeRoots": [
+      "node_modules/@types"
+    ]
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }
