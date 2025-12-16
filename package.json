@@ -16,19 +16,17 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "jest",
-    "test:debug": "node --inspect node_modules/.bin/jest --runInBand",
-    "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls"
+    "test": "vitest"
   },
   "dependencies": {
     "is-relative-url": "3.0.0",
     "lodash": "4.17.21",
     "stringify-object": "^3.3.0",
+    "vitest": "^3.2.4",
     "yup": "^0.29.1"
   },
   "devDependencies": {
     "@types/is-relative-url": "^3.0.0",
-    "@types/jest": "^25.1.4",
     "@types/json-schema": "^7.0.4",
     "@types/lodash": "^4.14.149",
     "@types/stringify-object": "^3.2.0",
@@ -36,8 +34,6 @@
     "bufferutil": "^4.0.1",
     "canvas": "^2.5.0",
     "coveralls": "^3.0.11",
-    "jest": "^25.1.0",
-    "ts-jest": "^25.2.1",
     "typescript": "^5.8.3",
     "utf-8-validate": "^5.0.2"
   },

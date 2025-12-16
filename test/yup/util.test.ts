@@ -8,6 +8,7 @@ import {
   normalize
 } from "../../src/yup/utils";
 import { validateItemsArray } from "../../src/yup/addMethods/utils";
+import { describe, expect, it } from "vitest";
 
 describe("removeEmptyObjects()", () => {
   it("should remove empty objects", () => {

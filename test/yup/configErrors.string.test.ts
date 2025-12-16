@@ -6,6 +6,7 @@ import type {
 import convertToYup from "../../src";
 import type { Config } from "../../src";
 import { ValidationError } from "yup";
+import { describe, expect, it } from "vitest";
 
 describe("convertToYup() string configuration errors", () => {
   it("should show configuration error for incorrect data type", () => {

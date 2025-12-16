@@ -1,6 +1,7 @@
 import * as Yup from "yup";
 import type { JSONSchema } from "../../src/schema"
 import convertToYup from "../../src";
+import { describe, expect, it } from "vitest";
 
 describe("convertToYup() object", () => {
   it("should validate object type", () => {

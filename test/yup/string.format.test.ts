@@ -2,10 +2,11 @@ import * as Yup from "yup";
 import type { JSONSchema } from "../../src/schema";
 import convertToYup from "../../src";
 import { ValidationError } from "yup";
+import { describe, expect, it, beforeEach, vi } from "vitest";
 
 describe("convertToYup() string format", () => {
   beforeEach(() => {
-    jest.spyOn(console, "warn").mockImplementation(() => { });
+    vi.spyOn(console, "warn").mockImplementation(() => { });
   });
 
   it("should validate date-time format", () => {
@@ -561,7 +562,7 @@ describe("convertToYup() string format", () => {
   });
 
   it("should render warning for iri use", () => {
-    const spy = jest.spyOn(console, "warn");
+    const spy = vi.spyOn(console, "warn");
 
     const schema: JSONSchema = {
       type: "object",
@@ -583,7 +584,7 @@ describe("convertToYup() string format", () => {
   });
 
   it("should render warning for iri use", () => {
-    const spy = jest.spyOn(console, "warn");
+    const spy = vi.spyOn(console, "warn");
 
     const schema: JSONSchema = {
       type: "object",

@@ -2,6 +2,7 @@ import * as Yup from "yup";
 import isEqual from "lodash/isEqual";
 import type { JSONSchema } from "../../src/schema"
 import convertToYup from "../../src";
+import { describe, expect, it } from "vitest";
 
 describe("convertToYup() array items", () => {
   it("should validate definitions", () => {
