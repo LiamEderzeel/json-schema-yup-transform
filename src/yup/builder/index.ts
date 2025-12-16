@@ -283,6 +283,49 @@ const createConditionalSchema = (
 
     // console.log(isElse ? "otherwise" : "then");
     // console.log(allCallBacks);
+    const validatorStack =
+      (e: boolean) =>
+      (...val: unknown[]) => {
+        const indent = (n: number) => {
+          let res = "";
+          for (let i = 0; i < n; i++) {
+            res += "\t";
+          }
+          return res;
+        };
+
+        console.log(
+          `__ start: ${[...parentValidators.keys, ifSchemaKey]} ${isElse ? "then" : "otherwise"}`
+        );
+        // const res = isValid(val[0]);
+        const things = [
+          ...newCallback,
+          { callback: isValid, inverted: e, key: ifSchemaKey }
+        ];
+        console.log(things);
+
+        for (const [i, c] of things.entries()) {
+          console.log(`${indent(i)}key: ${c.key}`);
+          console.log(
+            `${indent(i)}values: ${val.reduce((p, c) => (p += `, ${c ? c : "undefined"}`))}`
+          );
+          console.log(`${indent(i)}value: ${val[i]}`);
+          const valires = c.callback(val[i]);
+          console.log(`${indent(i)}valires: ${valires}`);
+          console.log(`${indent(i)}inverted: ${c.inverted}`);
+          if (valires === c.inverted) {
+            console.log(`${indent(i)}res: ${Color.FgRed}false${Color.Reset}`);
+            console.log(`__ end: ${[...parentValidators.keys, ifSchemaKey]}\n`);
+            return false;
+            console.log(false);
+          } else {
+            console.log(`${indent(i)}res: ${Color.FgGreen}true${Color.Reset}`);
+          }
+        }
+        console.log(`__ end: ${[...parentValidators.keys, ifSchemaKey]}\n`);
+        return true;
+      };
+
     const res = createIsThenOtherwiseSchema(
       {
         keys: [...parentValidators.keys, ifSchemaKey],
@@ -290,91 +333,8 @@ const createConditionalSchema = (
       },
       [
         [...parentValidators.keys, ifSchemaKey],
-        (...val: unknown[]) => {
-          const indent = (n: number) => {
-            let res = "";
-            for (let i = 0; i < n; i++) {
-              res += "\t";
-            }
-            return res;
-          };
-
-          console.log(
-            `__ start: ${[...parentValidators.keys, ifSchemaKey]} ${isElse ? "then" : "otherwise"}`
-          );
-          // const res = isValid(val[0]);
-          const things = allCallBacks;
-          console.log(things);
-
-          for (const [i, c] of things.entries()) {
-            console.log(`${indent(i)}key: ${c.key}`);
-            console.log(
-              `${indent(i)}values: ${val.reduce((p, c) => (p += `, ${c ? c : "undefined"}`))}`
-            );
-            console.log(`${indent(i)}value: ${val[i]}`);
-            const valires = c.callback(val[i]);
-            console.log(`${indent(i)}valires: ${valires}`);
-            console.log(`${indent(i)}inverted: ${c.inverted}`);
-            if (valires === c.inverted) {
-              console.log(`${indent(i)}res: ${Color.FgRed}false${Color.Reset}`);
-              console.log(
-                `__ end: ${[...parentValidators.keys, ifSchemaKey]}\n`
-              );
-              return false;
-              console.log(false);
-            } else {
-              console.log(
-                `${indent(i)}res: ${Color.FgGreen}true${Color.Reset}`
-              );
-            }
-          }
-          console.log(`__ end: ${[...parentValidators.keys, ifSchemaKey]}\n`);
-          return true;
-        },
-        (...val: unknown[]) => {
-          const indent = (n: number) => {
-            let res = "";
-            for (let i = 0; i < n; i++) {
-              res += "\t";
-            }
-            return res;
-          };
-
-          console.log(
-            `__ start: ${[...parentValidators.keys, ifSchemaKey]} ${isElse ? "then" : "otherwise"}`
-          );
-          // const res = isValid(val[0]);
-          const things = [
-            ...newCallback,
-            { callback: isValid, inverted: true, key: ifSchemaKey }
-          ];
-          console.log(things);
-
-          for (const [i, c] of things.entries()) {
-            console.log(`${indent(i)}key: ${c.key}`);
-            console.log(
-              `${indent(i)}values: ${val.reduce((p, c) => (p += `, ${c ? c : "undefined"}`))}`
-            );
-            console.log(`${indent(i)}value: ${val[i]}`);
-            const valires = c.callback(val[i]);
-            console.log(`${indent(i)}valires: ${valires}`);
-            console.log(`${indent(i)}inverted: ${c.inverted}`);
-            if (valires === c.inverted) {
-              console.log(`${indent(i)}res: ${Color.FgRed}false${Color.Reset}`);
-              console.log(
-                `__ end: ${[...parentValidators.keys, ifSchemaKey]}\n`
-              );
-              return false;
-              console.log(false);
-            } else {
-              console.log(
-                `${indent(i)}res: ${Color.FgGreen}true${Color.Reset}`
-              );
-            }
-          }
-          console.log(`__ end: ${[...parentValidators.keys, ifSchemaKey]}\n`);
-          return true;
-        }
+        validatorStack(false),
+        validatorStack(true)
       ],
       thenSchema,
       elseSchema
