@@ -176,63 +176,6 @@ const isValidator =
       return result;
     };
 
-type CallbackItem = {
-  callback: (val: unknown) => boolean;
-  inverted: boolean;
-  key: string;
-};
-
-const isValidWrapParentConditions = (callbacks: CallbackItem[]) => {
-  // We use Array.prototype.reduceRight to build the function chain
-  // from the end of the array to the beginning.
-
-  // The initial accumulator (acc) is a function that always returns true,
-  // representing the end of the chain.
-  const initialAccumulator: (...args: unknown[]) => boolean = () => true;
-
-  const finalValidator = callbacks.reduceRight(
-    (acc: (...args: unknown[]) => boolean, currentCallback: CallbackItem) => {
-      // 1. Capture the values for *this* step of the reduction.
-      const key = currentCallback.key;
-      const check = currentCallback.callback;
-      const inverted = currentCallback.inverted;
-
-      // 2. Return the new function (the closure) that incorporates the
-      // current check and calls the previously accumulated function (acc).
-      return (...args: unknown[]) => {
-        // We assume the check only uses the first argument 'a'
-        const [a, ...otherArgs] = args;
-
-        const logWrapper = (val: unknown) => {
-          // This uses the unique 'key' captured from the current reduction step.
-          // console.log(`key: ${key}`);
-          // console.log(`val: ${val}`);
-          return check(val);
-        };
-
-        // Check the current condition:
-        // If the check result is the same as the inverted flag, the condition fails.
-        // console.log(a);
-        // console.log(logWrapper(a));
-        if (logWrapper(a) === inverted) {
-          // if (logWrapper(a) === false) {
-          return false;
-        }
-
-        // Call the rest of the chain (the accumulated function)
-        if (!acc(otherArgs)) {
-          return false;
-        }
-
-        return true;
-      };
-    },
-    initialAccumulator
-  );
-
-  return finalValidator;
-};
-
 /** Build `is`, `then`, `otherwise` validation schema */
 
 const createConditionalSchema = (
