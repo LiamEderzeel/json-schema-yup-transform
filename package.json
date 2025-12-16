@@ -24,7 +24,7 @@
     "debug": "^4.4.3",
     "is-relative-url": "4.1.0",
     "lodash": "4.17.21",
-    "stringify-object": "^3.3.0",
+    "stringify-object": "^6.0.0",
     "vitest": "^4.0.16",
     "yup": "^1.7.1"
   },
