@@ -5,7 +5,7 @@ import isString from "lodash/isString";
 import isNumber from "lodash/isNumber";
 import isBoolean from "lodash/isBoolean";
 import isInteger from "lodash/isInteger";
-import { getRequired } from "./selectors";
+import { getNullable, getRequired } from "./selectors";
 import { DataTypes } from "./types";
 import type { JSONSchema } from "./types";
 
@@ -16,6 +16,15 @@ import type { JSONSchema } from "./types";
 export const isRequiredField = (schema: JSONSchema, id: string): boolean => {
   const requiredList = getRequired(schema);
   return isArray(requiredList) && requiredList.includes(id);
+};
+
+/**
+ * Returns a boolean if ID is a required field
+ */
+
+export const isNullableField = (schema: JSONSchema, id: string): boolean => {
+  const nullableList = getNullable(schema);
+  return isArray(nullableList) && nullableList.includes(id);
 };
 
 /**

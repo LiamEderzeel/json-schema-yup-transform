@@ -34,6 +34,7 @@ export enum CompositSchemaTypes {
 
 export enum SchemaKeywords {
   REQUIRED = "required",
+  NULLABLE = "nullable",
   ENUM = "enum",
   CONST = "const",
   FORMAT = "format",
@@ -64,7 +65,7 @@ export enum SchemaKeywords {
   UNIQUE_ITEMS = "uniqueItems"
 }
 
-export type JSONSchema = JSONSchema7;
+export type JSONSchema = JSONSchema7 & { nullable?: string[] };
 export type JSONSchemaDefinition = JSONSchema7Definition;
 export type JSONSchemaTypeName = UJSONSchema7TypeName;
 export type JSONSchemaType = UJSONSchema7Type;

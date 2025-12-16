@@ -17,9 +17,10 @@ describe("convertToYup() string configuration errors", () => {
       title: "Test",
       properties: {
         name: {
-          type: "string"
+          type: "string",
         }
-      }
+      },
+      nullable: ['name'],
     };
     const config: Config = {
       errors: {
