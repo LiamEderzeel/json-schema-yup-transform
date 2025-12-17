@@ -10,7 +10,7 @@ import type { SchemaItem } from "../types";
 export const createNullableSchema = <T extends Yup.Schema<unknown>>(
   Schema: T,
   jsonSchema: JSONSchema,
-  [key, value]: SchemaItem
+  [key, _value]: SchemaItem
 ): T => {
   if (!isNullableField(jsonSchema, key)) return Schema;
 

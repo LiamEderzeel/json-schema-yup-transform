@@ -38,8 +38,8 @@ const createArraySchema = (
 
   let Schema = Yup.array().typeError(defaultMessage);
 
-  if (isArray(defaults) || typeof defaults === 'undefined') {
-    Schema = Schema.concat(Schema.default(defaults))
+  if (isArray(defaults) || typeof defaults === "undefined") {
+    Schema = Schema.concat(Schema.default(defaults));
   }
 
   /** Set required if ID is in required schema */
@@ -57,7 +57,10 @@ const createArraySchema = (
       getErrorMessage(description, SchemaKeywords.CONTAINS, [
         key,
         { title, contains: type?.toString() }
-      ]) || capitalize(`${key} must at least contain one item of type ${type}`);
+      ]) ||
+      capitalize(
+        `${key} must at least contain one item of type ${type ?? "undefined"}`
+      );
 
     // `contains` is a custom yup method. See /yup/addons/index.ts
     // for implementation

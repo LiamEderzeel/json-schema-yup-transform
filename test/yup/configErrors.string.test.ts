@@ -186,7 +186,7 @@ describe("convertToYup() string configuration errors", () => {
     const config: Config = {
       errors: {
         name: {
-          minLength: ([key, { title, minLength }]) =>
+          minLength: ([key, { _title, minLength }]) =>
             `${key} custom minimum ${minLength} characters`
         }
       }

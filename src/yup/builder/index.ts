@@ -428,7 +428,7 @@ const createIsThenOtherwiseSchema = (
         if (key === "then" || key === "otherwise") {
           // 💡 FIX: Wrap the schema value in a function: (currentSchema) => value
           // The 'value' here is the original schema object (e.g., yup.string().required())
-          opts[key] = (currentSchema) => value;
+          opts[key] = (_currentSchema) => value;
         } else {
           // For 'is' and other simple keys, keep them as is
           opts[key] = value;
