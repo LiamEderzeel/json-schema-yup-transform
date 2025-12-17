@@ -200,7 +200,7 @@ const createConditionalSchema = (
   if (!ifSchemaHead) return false;
 
   const [ifSchemaKey, ifSchemaValue] = ifSchemaHead;
-  if (!isSchemaObject(ifSchemaValue)) false;
+  if (!isSchemaObject(ifSchemaValue)) return false;
 
   const thenSchema = get(jsonSchema, "then");
 
