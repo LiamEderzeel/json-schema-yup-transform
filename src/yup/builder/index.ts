@@ -266,7 +266,7 @@ const createConditionalSchema = (
 
             if (failed) {
               passAll = false;
-              if (!isDev) continue;
+              if (!isDev) break;
             }
           }
           log += `\n│\n╰result: ${passAll ? Color.FgGreen : Color.FgRed}${passAll}${Color.Reset}\n`;
