@@ -21,21 +21,13 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "erasableSyntaxOnly": true,
     "noEmit": false,
-    "lib": [
-      "ESNext",
-      "dom",
-      "dom.iterable",
-      "webworker"
-    ],
+    "lib": ["ESNext", "dom", "dom.iterable"],
     "rootDir": "src",
     "outDir": "dist",
     "moduleResolution": "node",
-    "typeRoots": [
-      "node_modules/@types"
-    ]
+    "typeRoots": ["node_modules/@types"]
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }

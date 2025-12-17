@@ -5,17 +5,34 @@
   "type": "module",
   "description": "Transforms a draft 7 specification JSON Schema to a Yup Schema",
   "license": "MIT",
-  "main": "dist/index.js",
-  "files": [
-    "dist"
-  ],
-  "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/ritchieanesco/json-schema-yup-transform"
   },
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./run": "./dist/run.mjs",
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*.d.mts",
+        "./*"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=20.19.0"
+  },
   "scripts": {
-    "build": "tsc",
+    "build": "tsdown",
     "test": "vitest",
     "test:debug": "DEBUG='JsonSchemaYupTransform::Builder::ConditionalSchema' vitest",
     "test:types": "tsc --noEmit"
@@ -34,7 +51,9 @@
     "@types/lodash": "^4.17.21",
     "@types/stringify-object": "^4.0.5",
     "coveralls": "^3.0.11",
-    "typescript": "^5.8.3"
+    "tsdown": "^0.18.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0"
   },
   "keywords": [],
   "packageManager": "pnpm@10.20.0"
