@@ -6,9 +6,8 @@
 
 A utility to generate a Yup Schema from a valid JSON Schema.
 
-**Note:** This package only supports yup v0.29.3 and below.
-
-json-schema-yup-transform is heavily inspired by [schema-to-yup](https://github.com/kristianmandrup/schema-to-yup) but strictly supports the draft 7 [specification](https://json-schema.org/draft/2019-09/release-notes.html)
+**Note:** This package only supports yup v1.7.1 or heigher.
+**Note:** This package is a fork of [ritchieanesco/json-schema-yup-transform](https://github.com/ritchieanesco/json-schema-yup-transform) which is heavily inspired by [schema-to-yup](https://github.com/kristianmandrup/schema-to-yup).
 
 The main objective is to support as many of the features of the draft 7 specification as possible.
 
@@ -17,17 +16,17 @@ The main objective is to support as many of the features of the draft 7 specific
 The project is written in [TypeScript](https://github.com/Microsoft/TypeScript).
 
 ```sh
-$ yarn build
+$ pnpm build
 ```
 
 Output goes into the `dist/` directory.
 
 ## Testing
 
-Tests and code coverage are run with [Jest](https://github.com/facebook/jest).
+Tests and code coverage are run with [Vitest](https://github.com/vitest-dev/vitest).
 
 ```sh
-$ yarn test
+$ pnpm test
 ```
 
 ## Useful Tools
@@ -547,3 +546,8 @@ let isValid = yupschema.isValidSync({
 });
 // => true
 ```
+
+# Thanks
+
+Thanks to [ritchieanesco](https://github.com/ritchieanesco) for creating the original project.
+Thanks to [kristianmandrup](https://github.com/kristianmandrup) for creating schema-to-yup

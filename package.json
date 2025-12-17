@@ -1,13 +1,13 @@
 {
-  "name": "json-schema-yup-transformer",
-  "author": "Ritchie Anesco <info@ritchieanesco.com>",
-  "version": "1.6.11",
+  "name": "@ederzeel/json-schema-yup-transformer",
+  "author": "Liam Ederzeel",
+  "version": "0.1.0",
   "type": "module",
   "description": "Transforms a draft 7 specification JSON Schema to a Yup Schema",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ritchieanesco/json-schema-yup-transform"
+    "url": "https://github.com/liamederzeel/json-schema-yup-transform"
   },
   "exports": {
     ".": "./dist/index.mjs",
