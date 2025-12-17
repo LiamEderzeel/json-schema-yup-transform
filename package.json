@@ -33,6 +33,7 @@
   },
   "scripts": {
     "build": "tsdown",
+    "lint": "oxlint --type-aware",
     "test": "vitest",
     "test:debug": "DEBUG='JsonSchemaYupTransform::Builder::ConditionalSchema' vitest",
     "test:types": "tsc --noEmit"
@@ -51,6 +52,8 @@
     "@types/lodash": "^4.17.21",
     "@types/stringify-object": "^4.0.5",
     "coveralls": "^3.0.11",
+    "oxlint": "^1.33.0",
+    "oxlint-tsgolint": "^0.9.1",
     "tsdown": "^0.18.0",
     "typescript": "^5.9.3",
     "vite": "^7.3.0"
