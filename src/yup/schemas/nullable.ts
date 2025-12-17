@@ -1,9 +1,7 @@
-import capitalize from "lodash/capitalize";
 import type { JSONSchema } from "../../schema";
-import { isNullableField, isRequiredField, SchemaKeywords } from "../../schema";
+import { isNullableField } from "../../schema";
 import Yup from "../addMethods";
 import type { SchemaItem } from "../types";
-import { getErrorMessage } from "../config";
 
 /**
  * Add required schema should subschema is required
