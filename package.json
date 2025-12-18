@@ -1,7 +1,7 @@
 {
   "name": "@ederzeel/json-schema-yup-transformer",
   "author": "Liam Ederzeel",
-  "version": "0.1.0-alpha.5",
+  "version": "0.1.0-alpha.6",
   "type": "module",
   "description": "Transforms a draft 7 specification JSON Schema to a Yup Schema",
   "license": "MIT",
