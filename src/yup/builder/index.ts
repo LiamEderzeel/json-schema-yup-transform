@@ -4,7 +4,8 @@ import Yup from "../addMethods/";
 import { getProperties, isSchemaObject } from "../../schema/";
 import createValidationSchema from "../schemas/";
 import { getObjectHead } from "../utils";
-import { debug } from "debug";
+import pkg from "debug";
+const { debug } = pkg;
 
 const isDev = import.meta.env.DEV;
 const bugger = debug("JsonSchemaYupTransform::Builder::ConditionalSchema");
