@@ -1,10 +1,12 @@
-import isArray from "lodash/isArray";
-import isPlainObject from "lodash/isPlainObject";
-import isNull from "lodash/isNull";
-import isString from "lodash/isString";
-import isNumber from "lodash/isNumber";
-import isBoolean from "lodash/isBoolean";
-import isInteger from "lodash/isInteger";
+import {
+  isArray,
+  isPlainObject,
+  isNull,
+  isString,
+  isNumber,
+  isBoolean,
+  isInteger
+} from "lodash";
 import { getNullable, getRequired } from "./selectors";
 import { DataTypes } from "./types";
 import type { JSONSchema } from "./types";

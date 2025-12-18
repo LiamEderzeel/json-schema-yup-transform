@@ -1,5 +1,4 @@
-import isNumber from "lodash/isNumber";
-import capitalize from "lodash/capitalize";
+import { isNumber, capitalize } from "lodash";
 import { DataTypes, SchemaKeywords } from "../../../schema";
 import type { JSONSchema } from "../../../schema";
 import type { SchemaItem } from "../../types";
@@ -58,8 +57,13 @@ export const createBaseNumberSchema = (
   const isExclusiveMaxNumber = isNumber(exclusiveMaximum);
   const isExclusiveMinNumber = isNumber(exclusiveMinimum);
 
-  if (isNumber(defaults) || typeof defaults === 'undefined') {
-    Schema = Schema.concat(Schema.default(defaults)) as Yup.NumberSchema<number | undefined, Yup.AnyObject, undefined, "">;
+  if (isNumber(defaults) || typeof defaults === "undefined") {
+    Schema = Schema.concat(Schema.default(defaults)) as Yup.NumberSchema<
+      number | undefined,
+      Yup.AnyObject,
+      undefined,
+      ""
+    >;
   }
 
   if (isExclusiveMinNumber && isMinNumber) {

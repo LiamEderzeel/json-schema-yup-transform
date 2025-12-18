@@ -1,10 +1,12 @@
 import * as Yup from "yup";
-import isNumber from "lodash/isNumber";
-import isString from "lodash/isString";
-import isBoolean from "lodash/isBoolean";
-import isPlainObject from "lodash/isPlainObject";
-import isArray from "lodash/isArray";
-import isInteger from "lodash/isInteger";
+import {
+  isNumber,
+  isString,
+  isBoolean,
+  isPlainObject,
+  isArray,
+  isInteger
+} from "lodash";
 import type { JSONSchemaDefinitionExtended } from "../../schema";
 import { DataTypes } from "../../schema";
 import { validateItemsArray, isUnique } from "./utils";

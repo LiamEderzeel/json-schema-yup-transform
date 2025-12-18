@@ -1,5 +1,4 @@
-import isNumber from "lodash/isNumber";
-import capitalize from "lodash/capitalize";
+import { isNumber, capitalize } from "lodash";
 import type { JSONSchemaExtended } from "../../../schema";
 import { DataTypes, SchemaKeywords } from "../../../schema";
 import Yup from "../../addMethods";
@@ -47,8 +46,13 @@ const createStringSchema = (
 
   let Schema = Yup.string().typeError(defaultMessage);
 
-  if (typeof defaults === 'string' || typeof defaults === 'undefined') {
-    Schema = Schema.concat(Schema.default(defaults)) as Yup.StringSchema<string | undefined, Yup.AnyObject, undefined, "">
+  if (typeof defaults === "string" || typeof defaults === "undefined") {
+    Schema = Schema.concat(Schema.default(defaults)) as Yup.StringSchema<
+      string | undefined,
+      Yup.AnyObject,
+      undefined,
+      ""
+    >;
   }
 
   /** Set required if ID is in required schema */

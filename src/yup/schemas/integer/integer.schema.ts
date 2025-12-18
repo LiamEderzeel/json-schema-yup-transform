@@ -1,4 +1,4 @@
-import capitalize from "lodash/capitalize";
+import { capitalize } from "lodash";
 import { DataTypes } from "../../../schema";
 import type { JSONSchema } from "../../../schema";
 import Yup from "../../addMethods";

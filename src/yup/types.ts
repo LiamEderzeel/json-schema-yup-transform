@@ -1,5 +1,5 @@
-import type { JSONSchema, JSONSchemaType, NodeTypes } from "../schema"
-import isPlainObject from "lodash/isPlainObject";
+import type { JSONSchema, JSONSchemaType, NodeTypes } from "../schema";
+import { isPlainObject } from "lodash";
 
 export const isConfigError = (
   errors: undefined | ConfigErrors
@@ -15,9 +15,12 @@ export type ConfigErrorTypes = {
 
 // Custom error messaging callback
 
-export type CustomErrorMsgParam = [ string, Record<string, JSONSchemaType | undefined> ]
+export type CustomErrorMsgParam = [
+  string,
+  Record<string, JSONSchemaType | undefined>
+];
 
-export type CustomErrorMsg = (param: CustomErrorMsgParam) => string
+export type CustomErrorMsg = (param: CustomErrorMsgParam) => string;
 
 export interface ConfigErrors {
   [key: string]: ConfigErrors | ConfigErrorTypes;

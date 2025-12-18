@@ -1,6 +1,4 @@
-import get from "lodash/get";
-import nth from "lodash/nth";
-import findKey from "lodash/findKey";
+import { get, nth, findKey } from "lodash";
 import { DEFINITION_ROOT } from "./constants";
 import type {
   JSONSchema,
@@ -17,8 +15,8 @@ export const getDefinitions = (
   schema: JSONSchema
 ):
   | {
-      [key: string]: JSONSchemaDefinition;
-    }
+    [key: string]: JSONSchemaDefinition;
+  }
   | undefined => schema.definitions;
 
 /**
@@ -52,8 +50,8 @@ export const getProperties = (
   schema: JSONSchema
 ):
   | {
-      [key: string]: JSONSchemaDefinition;
-    }
+    [key: string]: JSONSchemaDefinition;
+  }
   | undefined => schema.properties;
 
 export const getPropertyType = (propertyItem: JSONSchema): JSONSchema["type"] =>
@@ -73,7 +71,6 @@ export const getCompositionType = (
 
 export const getRequired = (schema: JSONSchema): JSONSchema["required"] =>
   schema.required;
-
 
 export const getNullable = (schema: JSONSchema): JSONSchema["nullable"] =>
   schema.nullable;

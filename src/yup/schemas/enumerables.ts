@@ -1,10 +1,8 @@
-import isArray from "lodash/isArray";
-import capitalize from "lodash/capitalize";
+import { isArray, capitalize, isEqual } from "lodash";
 import { SchemaKeywords } from "../../schema";
 import Yup from "../addMethods";
 import type { SchemaItem } from "../types";
 import { getErrorMessage } from "../config";
-import { isEqual } from "lodash";
 
 /**
  * Add enum yup method when schema enum is declared

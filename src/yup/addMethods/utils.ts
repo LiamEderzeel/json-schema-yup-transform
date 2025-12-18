@@ -1,8 +1,4 @@
-import isArray from "lodash/isArray";
-import isString from "lodash/isString";
-import isPlainObject from "lodash/isPlainObject";
-import isEqual from "lodash/isEqual";
-import uniq from "lodash/uniq";
+import { isArray, isString, isPlainObject, isEqual, uniq } from "lodash";
 import stringifyObject from "stringify-object";
 import {
   DataTypes,
@@ -27,31 +23,31 @@ export const isValueEnum = (
 
 export const validateItemsArray =
   (items: JSONSchemaBasicType[]) =>
-  (item: JSONSchemaBasicType, index: number): boolean => {
-    const schemaItem = getItemsArrayItem(items, index);
+    (item: JSONSchemaBasicType, index: number): boolean => {
+      const schemaItem = getItemsArrayItem(items, index);
 
-    if (!isSchemaObject(schemaItem)) return false;
+      if (!isSchemaObject(schemaItem)) return false;
 
-    const { type, enum: enums, const: consts } = schemaItem;
+      const { type, enum: enums, const: consts } = schemaItem;
 
-    // Items do not support multiple types
-    if (!isString(type) || !isTypeOfValue[type](item)) return false;
+      // Items do not support multiple types
+      if (!isString(type) || !isTypeOfValue[type](item)) return false;
 
-    // enums and consts are only applicable to
-    // types, numbers and integers
-    if (
-      type === DataTypes.STRING ||
-      type === DataTypes.NUMBER ||
-      type === DataTypes.INTEGER ||
-      type === DataTypes.ARRAY
-    ) {
-      if (enums && !isValueEnum(enums, item)) return false;
-      if ((consts || consts === null || consts === 0) && !isEqual(item, consts))
-        return false;
-    }
+      // enums and consts are only applicable to
+      // types, numbers and integers
+      if (
+        type === DataTypes.STRING ||
+        type === DataTypes.NUMBER ||
+        type === DataTypes.INTEGER ||
+        type === DataTypes.ARRAY
+      ) {
+        if (enums && !isValueEnum(enums, item)) return false;
+        if ((consts || consts === null || consts === 0) && !isEqual(item, consts))
+          return false;
+      }
 
-    return true;
-  };
+      return true;
+    };
 
 /**
  * Check if each array values is unique

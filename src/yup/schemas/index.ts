@@ -1,7 +1,4 @@
-import isArray from "lodash/isArray";
-import isString from "lodash/isString";
-import get from "lodash/get";
-import has from "lodash/has";
+import { isArray, isString, get, has } from "lodash";
 import type { JSONSchema, JSONSchemaTypeName } from "../../schema";
 import {
   DataTypes,
@@ -50,7 +47,13 @@ const getTypeOfValue = (
  * Determine which validation method to use by data type
  */
 
-type YupValidationSchema = Yup.NumberSchema | Yup.MixedSchema<unknown> | Yup.BooleanSchema | Yup.ArraySchema<any[] | undefined, AnyObject> | Yup.ObjectSchema<AnyObject> | Yup.StringSchema
+type YupValidationSchema =
+  | Yup.NumberSchema
+  | Yup.MixedSchema<unknown>
+  | Yup.BooleanSchema
+  | Yup.ArraySchema<any[] | undefined, AnyObject>
+  | Yup.ObjectSchema<AnyObject>
+  | Yup.StringSchema;
 const getValidationSchema = (
   [key, value]: SchemaItem,
   jsonSchema: JSONSchema
@@ -73,12 +76,11 @@ const getValidationSchema = (
 
   const { type } = value;
 
-
-  switch(type) {
+  switch (type) {
     case DataTypes.STRING:
       return createStringSchema([key, value], jsonSchema);
     case DataTypes.NUMBER:
-      return createNumberSchema([key, value], jsonSchema)
+      return createNumberSchema([key, value], jsonSchema);
     case DataTypes.INTEGER:
       return createIntegerSchema([key, value], jsonSchema);
     case DataTypes.ARRAY:

@@ -1,9 +1,8 @@
-import capitalize from "lodash/capitalize";
+import { capitalize, isEqual } from "lodash";
 import { SchemaKeywords } from "../../schema";
 import Yup from "../addMethods";
 import type { SchemaItem } from "../types";
 import { getErrorMessage } from "../config";
-import { isEqual } from "lodash";
 
 /**
  * Add constant yup method when schema constant is declared
