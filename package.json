@@ -41,14 +41,14 @@
   "dependencies": {
     "debug": "^4.4.3",
     "is-relative-url": "4.1.0",
-    "lodash": "4.17.21",
+    "lodash-es": "^4.17.22",
     "stringify-object": "^3.2.0",
     "yup": "^1.7.1"
   },
   "devDependencies": {
     "@types/debug": "^4.1.12",
     "@types/json-schema": "^7.0.4",
-    "@types/lodash": "^4.17.21",
+    "@types/lodash-es": "^4.17.12",
     "@types/stringify-object": "^3.2.0",
     "coveralls": "^3.0.11",
     "oxlint": "^1.33.0",

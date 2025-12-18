@@ -1,4 +1,4 @@
-import { isArray, isString, get, has } from "lodash";
+import { isArray, isString, get, has } from "lodash-es";
 import type { JSONSchema, JSONSchemaTypeName } from "../../schema";
 import {
   DataTypes,

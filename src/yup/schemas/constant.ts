@@ -1,4 +1,4 @@
-import { capitalize, isEqual } from "lodash";
+import { capitalize, isEqual } from "lodash-es";
 import { SchemaKeywords } from "../../schema";
 import Yup from "../addMethods";
 import type { SchemaItem } from "../types";

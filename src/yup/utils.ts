@@ -7,7 +7,7 @@ import {
   transform,
   flow,
   has
-} from "lodash";
+} from "lodash-es";
 import { getDefinitionItem } from "../schema";
 import type { JSONSchema } from "../schema";
 

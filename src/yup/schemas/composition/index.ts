@@ -1,4 +1,4 @@
-import { capitalize } from "lodash";
+import { capitalize } from "lodash-es";
 import { CompositSchemaTypes } from "../../../schema";
 import type {
   AnyOfSchema,

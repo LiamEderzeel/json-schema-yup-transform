@@ -1,4 +1,4 @@
-import { isNumber, capitalize } from "lodash";
+import { isNumber, capitalize } from "lodash-es";
 import type { JSONSchemaExtended } from "../../../schema";
 import { DataTypes, SchemaKeywords } from "../../../schema";
 import Yup from "../../addMethods";

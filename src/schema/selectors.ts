@@ -1,4 +1,4 @@
-import { get, nth, findKey } from "lodash";
+import { get, nth, findKey } from "lodash-es";
 import { DEFINITION_ROOT } from "./constants";
 import type {
   JSONSchema,

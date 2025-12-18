@@ -1,4 +1,4 @@
-import { isArray, isString, isPlainObject, isEqual, uniq } from "lodash";
+import { isArray, isString, isPlainObject, isEqual, uniq } from "lodash-es";
 import stringifyObject from "stringify-object";
 import {
   DataTypes,

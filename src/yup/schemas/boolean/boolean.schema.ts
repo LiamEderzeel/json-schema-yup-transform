@@ -1,4 +1,4 @@
-import { isBoolean, capitalize } from "lodash";
+import { isBoolean, capitalize } from "lodash-es";
 import { DataTypes } from "../../../schema";
 import type { JSONSchema } from "../../../schema";
 import Yup from "../../addMethods";

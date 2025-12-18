@@ -6,7 +6,7 @@ import {
   isPlainObject,
   isArray,
   isInteger
-} from "lodash";
+} from "lodash-es";
 import type { JSONSchemaDefinitionExtended } from "../../schema";
 import { DataTypes } from "../../schema";
 import { validateItemsArray, isUnique } from "./utils";

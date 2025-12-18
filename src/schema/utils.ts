@@ -6,7 +6,7 @@ import {
   isNumber,
   isBoolean,
   isInteger
-} from "lodash";
+} from "lodash-es";
 import { getNullable, getRequired } from "./selectors";
 import { DataTypes } from "./types";
 import type { JSONSchema } from "./types";
