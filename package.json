@@ -43,7 +43,6 @@
     "is-relative-url": "4.1.0",
     "lodash": "4.17.21",
     "stringify-object": "^6.0.0",
-    "vitest": "^4.0.16",
     "yup": "^1.7.1"
   },
   "devDependencies": {
@@ -55,7 +54,8 @@
     "oxlint": "^1.33.0",
     "oxlint-tsgolint": "^0.9.1",
     "tsdown": "^0.18.1",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.16"
   },
   "keywords": [],
   "packageManager": "pnpm@10.20.0"
