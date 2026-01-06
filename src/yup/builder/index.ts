@@ -5,10 +5,14 @@ import { getProperties, isSchemaObject } from "../../schema/";
 import createValidationSchema from "../schemas/";
 import { getObjectHead } from "../utils";
 import pkg from "debug";
-const { debug } = pkg;
 
 const isDev = import.meta.env.DEV;
-const bugger = debug("JsonSchemaYupTransform::Builder::ConditionalSchema");
+
+let bugger;
+if (isDev) {
+  const { debug } = pkg;
+  bugger = debug("JsonSchemaYupTransform::Builder::ConditionalSchema");
+}
 
 const Color = {
   Reset: "\x1b[0m",
@@ -249,27 +253,33 @@ const createConditionalSchema = (
           ];
 
           let log = "";
-          log += `\n╭─ check: ${Color.FgBlue}${[...parentValidators.keys, ifSchemaKey].join(`${Color.Reset} > ${Color.FgBlue}`)}${Color.Reset} ${isElse ? "then" : "otherwise"} brance\n│`;
+          if (isDev) {
+            log += `\n╭─ check: ${Color.FgBlue}${[...parentValidators.keys, ifSchemaKey].join(`${Color.Reset} > ${Color.FgBlue}`)}${Color.Reset} ${isElse ? "then" : "otherwise"} brance\n│`;
+          }
 
           let passAll = true;
           for (const [i, c] of things.entries()) {
             const failed = passAll ? c.callback(val[i]) === c.inverted : true;
             const pass = !failed;
 
-            log += `\n│${indent(i + 1)}╭─ check ${formatColor(c.key, Color.FgBlue)} ${c.inverted ? "otherwise" : "then"} brance condition`;
-            log += `\n│${indent(i + 1)}│  value: ${val[i]} `;
+            if (isDev) {
+              log += `\n│${indent(i + 1)}╭─ check ${formatColor(c.key, Color.FgBlue)} ${c.inverted ? "otherwise" : "then"} brance condition`;
+              log += `\n│${indent(i + 1)}│  value: ${val[i]} `;
 
-            log += `\n│${indent(i + 1)}│  inverted: ${c.inverted} `;
-            log += `\n│${indent(i + 1)}╰─ result: ${formatColor(passAll ? pass.toString() : "skiped", passAll ? (pass ? Color.FgGreen : Color.FgRed) : Color.FgGray)}${Color.Reset} ${things.length - 1 > i ? `${pass ? Color.FgWhite : Color.FgGray}╮${Color.Reset}\n│${indent(i + 3)}${passAll ? (pass ? "" : " ") : "  "}${pass ? Color.FgWhite : Color.FgGray}│${Color.Reset}` : ""}`;
+              log += `\n│${indent(i + 1)}│  inverted: ${c.inverted} `;
+              log += `\n│${indent(i + 1)}╰─ result: ${formatColor(passAll ? pass.toString() : "skiped", passAll ? (pass ? Color.FgGreen : Color.FgRed) : Color.FgGray)}${Color.Reset} ${things.length - 1 > i ? `${pass ? Color.FgWhite : Color.FgGray}╮${Color.Reset}\n│${indent(i + 3)}${passAll ? (pass ? "" : " ") : "  "}${pass ? Color.FgWhite : Color.FgGray}│${Color.Reset}` : ""}`;
+            }
 
             if (failed) {
               passAll = false;
               if (!isDev) break;
             }
           }
-          log += `\n│\n╰result: ${passAll ? Color.FgGreen : Color.FgRed}${passAll}${Color.Reset}\n`;
 
-          bugger(log);
+          if (isDev) {
+            log += `\n│\n╰result: ${passAll ? Color.FgGreen : Color.FgRed}${passAll}${Color.Reset}\n`;
+            bugger(log);
+          }
 
           return passAll;
         };
