@@ -4,15 +4,13 @@ import Yup from "../addMethods/";
 import { getProperties, isSchemaObject } from "../../schema/";
 import createValidationSchema from "../schemas/";
 import { getObjectHead } from "../utils";
-import pkg from "debug";
+import { debug } from "debug";
 
 const isDev = import.meta.env.DEV;
 
-let bugger;
-if (isDev) {
-  const { debug } = pkg;
-  bugger = debug("JsonSchemaYupTransform::Builder::ConditionalSchema");
-}
+const bugger = /*@__PURE__*/ debug(
+  "JsonSchemaYupTransform::Builder::ConditionalSchema"
+);
 
 const Color = {
   Reset: "\x1b[0m",
